@@ -40,13 +40,14 @@ export function CompaniesPageClient({ companies }: CompaniesPageProps) {
         <div className="text-sm text-gray-600">
           {companies.length} {companies.length === 1 ? 'company' : 'companies'} found
         </div>
-        <ViewToggle 
-          currentView={viewMode} 
-          onViewChange={(newView) => {
-            console.log('Changing view to:', newView) // Debug log
-            setViewMode(newView)
-          }} 
+        <ViewToggle
+          currentView={viewMode}
+          onViewChange={handleViewChange}
         />
+      </div>
+
+      <div className="mb-4 p-4 bg-yellow-100 rounded">
+        <p>Debug: Current view mode is: <strong>{viewMode}</strong></p>
       </div>
 
       {viewMode === 'card' ? (

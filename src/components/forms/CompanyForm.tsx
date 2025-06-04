@@ -82,7 +82,16 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
         throw new Error('Failed to save company')
       }
 
-      router.push('/companies')
+      const result = await response.json()
+
+      // Smart redirect based on mode
+      if (mode === 'create') {
+        // After creating, go to the new company's detail page
+        router.push(`/companies/${result.id}`)
+      } else {
+        // After editing, go to the company's detail page
+        router.push(`/companies/${company!.id}`)
+      }
       router.refresh()
     } catch (error) {
       console.error('Error saving company:', error)

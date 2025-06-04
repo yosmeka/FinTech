@@ -113,7 +113,18 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         throw new Error('Failed to save product')
       }
 
-      router.push('/products')
+      // Smart redirect based on context
+      const companyId = searchParams.get('companyId')
+      if (companyId && mode === 'create') {
+        // If we came from a company detail page, redirect back to it
+        router.push(`/companies/${companyId}`)
+      } else if (mode === 'edit') {
+        // If editing, go to the product detail page
+        router.push(`/products/${product!.id}`)
+      } else {
+        // Default to products list
+        router.push('/products')
+      }
       router.refresh()
     } catch (error) {
       console.error('Error saving product:', error)
