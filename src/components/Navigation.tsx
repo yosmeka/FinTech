@@ -72,7 +72,7 @@ export function Navigation() {
                   <span className="text-white font-bold text-sm">F</span>
                 </div>
                 <h1 className="text-xl font-bold text-black">
-                  Fintech Manager
+                  Fintech 
                 </h1>
               </div>
             </div>
