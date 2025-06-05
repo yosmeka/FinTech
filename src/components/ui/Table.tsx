@@ -3,10 +3,10 @@ import { cn } from '@/lib/utils'
 
 const Table = forwardRef<HTMLTableElement, HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
+    <div className="table-container relative w-full overflow-auto">
       <table
         ref={ref}
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn('table-modern w-full caption-bottom text-sm', className)}
         {...props}
       />
     </div>
@@ -16,7 +16,7 @@ Table.displayName = 'Table'
 
 const TableHeader = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+    <thead ref={ref} className={cn('', className)} {...props} />
   )
 )
 TableHeader.displayName = 'TableHeader'
@@ -25,7 +25,7 @@ const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTMLTableSe
   ({ className, ...props }, ref) => (
     <tbody
       ref={ref}
-      className={cn('[&_tr:last-child]:border-0', className)}
+      className={cn('', className)}
       {...props}
     />
   )
@@ -47,26 +47,60 @@ const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElem
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}
-      className={cn(
-        'border-b transition-colors hover:bg-gray-50/50 data-[state=selected]:bg-gray-50',
-        className
-      )}
+      className={cn('', className)}
       {...props}
     />
   )
 )
 TableRow.displayName = 'TableRow'
 
-const TableHead = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
+interface TableHeadProps extends HTMLAttributes<HTMLTableCellElement> {
+  sortable?: boolean
+  sortDirection?: 'asc' | 'desc' | null
+  onSort?: () => void
+}
+
+const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ className, sortable = false, sortDirection = null, onSort, children, ...props }, ref) => (
     <th
       ref={ref}
       className={cn(
-        'h-12 px-4 text-left align-middle font-medium text-gray-600 [&:has([role=checkbox])]:pr-0',
+        'text-left align-middle',
+        sortable && 'sortable cursor-pointer',
+        sortDirection && 'sorted',
         className
       )}
+      onClick={sortable ? onSort : undefined}
       {...props}
-    />
+    >
+      <div className="flex items-center">
+        <span>{children}</span>
+        {sortable && (
+          <div className="sort-icon ml-2">
+            <svg
+              className={cn(
+                "h-3 w-3",
+                sortDirection === 'asc' ? "text-red-600" : "text-gray-400"
+              )}
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+            </svg>
+            <svg
+              className={cn(
+                "h-3 w-3 -mt-1",
+                sortDirection === 'desc' ? "text-red-600" : "text-gray-400"
+              )}
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </div>
+        )}
+      </div>
+    </th>
   )
 )
 TableHead.displayName = 'TableHead'
@@ -75,7 +109,7 @@ const TableCell = forwardRef<HTMLTableCellElement, HTMLAttributes<HTMLTableCellE
   ({ className, ...props }, ref) => (
     <td
       ref={ref}
-      className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('align-middle', className)}
       {...props}
     />
   )

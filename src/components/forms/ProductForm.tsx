@@ -2,10 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { ProductStatus, PRODUCT_STATUS_LABELS, type Product, type FintechCompany } from '@/lib/types'
 
 interface ProductWithCompany extends Product {
@@ -142,14 +140,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   }
 
   return (
-    <Card className="max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>
-          {mode === 'create' ? 'Add New Product' : 'Edit Product'}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
           <Input
             label="Product Name"
             value={formData.productName}
@@ -213,7 +204,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
           <Select
             label="Status"
             value={formData.status}
-            onChange={(e) => handleChange('status', e.target.value as ProductStatus)}
+            onChange={(value) => handleChange('status', value as ProductStatus)}
             options={statusOptions}
             error={errors.status}
             required
@@ -222,7 +213,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
           <Select
             label="Company"
             value={formData.fintechCompanyId.toString()}
-            onChange={(e) => handleChange('fintechCompanyId', parseInt(e.target.value))}
+            onChange={(value) => handleChange('fintechCompanyId', parseInt(value))}
             options={companyOptions}
             error={errors.fintechCompanyId}
             required
@@ -232,25 +223,40 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             <div className="text-red-600 text-sm">{errors.submit}</div>
           )}
 
-          <div className="flex gap-4">
-            <Button
-              type="submit"
-              disabled={loading}
-              className="flex-1"
-            >
-              {loading ? 'Saving...' : mode === 'create' ? 'Create Product' : 'Update Product'}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              disabled={loading}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+      <div className="flex gap-4 pt-6 border-t border-gray-200">
+        <button
+          type="submit"
+          disabled={loading}
+          className="card-action-btn primary flex-1"
+        >
+          {loading ? (
+            <>
+              <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Saving...
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              {mode === 'create' ? 'Create Product' : 'Update Product'}
+            </>
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          disabled={loading}
+          className="card-action-btn secondary"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Cancel
+        </button>
+      </div>
+    </form>
   )
 }

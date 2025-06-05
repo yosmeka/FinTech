@@ -62,25 +62,30 @@ export function Navigation() {
   }
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200">
+    <nav className="nav-modern bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">
-                Fintech Manager
-              </h1>
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">F</span>
+                </div>
+                <h1 className="text-xl font-bold text-black">
+                  Fintech Manager
+                </h1>
+              </div>
             </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
+                    'nav-link inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all duration-200',
                     pathname === item.href
-                      ? 'border-blue-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                      ? 'border-red-600 text-red-600'
+                      : 'border-transparent text-gray-600 hover:border-red-600 hover:text-red-600'
                   )}
                 >
                   {item.name}
@@ -93,14 +98,17 @@ export function Navigation() {
           <div className="flex items-center space-x-4">
             {user && (
               <>
-                <span className="text-sm text-gray-700">
-                  Welcome, {user.name}
-                </span>
+                <div className="hidden md:block">
+                  <span className="text-sm text-gray-700 font-medium">
+                    Welcome, <span className="text-black font-semibold">{user.name}</span>
+                  </span>
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleLogout}
                   disabled={loading}
+                  className="btn-outline border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
                 >
                   {loading ? 'Signing out...' : 'Sign Out'}
                 </Button>

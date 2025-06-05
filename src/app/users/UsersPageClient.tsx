@@ -91,99 +91,176 @@ export function UsersPageClient({ users }: UsersPageProps) {
   }, [users, searchQuery, statusFilter, sortBy])
 
   const renderUserCard = (user: User) => (
-    <Card key={user.id} className="hover:shadow-lg transition-shadow">
-      <CardHeader>
-        <div className="flex justify-between items-start">
+    <div key={user.id} className="card-professional">
+      {/* Card Header */}
+      <div className="card-header-professional">
+        <div className="card-avatar user">
+          {user.name.charAt(0).toUpperCase()}
+        </div>
+
+        <div className="card-status-container">
           <div>
-            <CardTitle className="text-lg">{user.name}</CardTitle>
-            <CardDescription>{user.email}</CardDescription>
+            <h3 className="card-title-professional">{user.name}</h3>
+            <p className="card-subtitle-professional">{user.email}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Badge variant="secondary">{user.role}</Badge>
-            <Badge 
-              variant={user.isActive ? "default" : "destructive"}
-            >
+            <span className="card-status-badge info">
+              {user.role}
+            </span>
+            <span className={`card-status-badge ${user.isActive ? 'success' : 'error'}`}>
               {user.isActive ? 'Active' : 'Inactive'}
-            </Badge>
+            </span>
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2 text-sm text-gray-600">
-          <div>
-            <span className="font-medium">Created:</span>{' '}
-            {new Date(user.createdAt).toLocaleDateString()}
+      </div>
+
+      {/* Card Content */}
+      <div className="card-content-professional">
+        {/* Information Grid */}
+        <div className="card-info-grid">
+          <div className="card-info-item">
+            <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+            <div className="card-info-content">
+              <div className="card-info-label">User ID</div>
+              <div className="card-info-value">{user.id}</div>
+            </div>
           </div>
+
+          <div className="card-info-item">
+            <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a4 4 0 118 0v4m-4 6v6m-4-6h8m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v2" />
+            </svg>
+            <div className="card-info-content">
+              <div className="card-info-label">Created</div>
+              <div className="card-info-value">{new Date(user.createdAt).toLocaleDateString()}</div>
+            </div>
+          </div>
+
           {user.creator && (
-            <div>
-              <span className="font-medium">Created by:</span>{' '}
-              {user.creator.name}
+            <div className="card-info-item">
+              <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <div className="card-info-content">
+                <div className="card-info-label">Created by</div>
+                <div className="card-info-value">{user.creator.name}</div>
+              </div>
             </div>
           )}
-          <div>
-            <span className="font-medium">Last updated:</span>{' '}
-            {new Date(user.updatedAt).toLocaleDateString()}
+
+          <div className="card-info-item">
+            <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="card-info-content">
+              <div className="card-info-label">Last updated</div>
+              <div className="card-info-value">{new Date(user.updatedAt).toLocaleDateString()}</div>
+            </div>
           </div>
         </div>
-        
-        <div className="flex gap-2 mt-4">
-          <Link href={`/users/${user.id}`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full">
-              View Details
-            </Button>
-          </Link>
-          <Link href={`/users/${user.id}/edit`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full">
-              Edit
-            </Button>
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      {/* Card Actions */}
+      <div className="card-actions">
+        <Link href={`/users/${user.id}`} className="card-action-btn primary">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          View Details
+        </Link>
+        <Link href={`/users/${user.id}/edit`} className="card-action-btn secondary">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Edit
+        </Link>
+      </div>
+    </div>
   )
 
   const renderUserTable = () => (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Created</TableHead>
-          <TableHead>Created By</TableHead>
-          <TableHead>Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {filteredAndSortedUsers.map((user) => (
-          <TableRow key={user.id}>
-            <TableCell className="font-medium">{user.name}</TableCell>
-            <TableCell>{user.email}</TableCell>
-            <TableCell>
-              <Badge variant="secondary">{user.role}</Badge>
-            </TableCell>
-            <TableCell>
-              <Badge variant={user.isActive ? "default" : "destructive"}>
-                {user.isActive ? 'Active' : 'Inactive'}
-              </Badge>
-            </TableCell>
-            <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-            <TableCell>{user.creator?.name || '-'}</TableCell>
-            <TableCell>
-              <div className="flex gap-2">
-                <Link href={`/users/${user.id}`}>
-                  <Button variant="outline" size="sm">View</Button>
-                </Link>
-                <Link href={`/users/${user.id}/edit`}>
-                  <Button variant="outline" size="sm">Edit</Button>
-                </Link>
-              </div>
-            </TableCell>
+    <div className="table-container">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>User</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="hidden sm:table-cell">Created</TableHead>
+            <TableHead className="hidden md:table-cell">Created By</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {filteredAndSortedUsers.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <span className="text-red-600 font-bold text-sm">
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <Link
+                      href={`/users/${user.id}`}
+                      className="font-semibold text-black hover:text-red-600 transition-colors"
+                    >
+                      {user.name}
+                    </Link>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell>
+                <span className="table-badge info">
+                  {user.role}
+                </span>
+              </TableCell>
+              <TableCell>
+                <span className={`table-badge ${user.isActive ? 'success' : 'error'}`}>
+                  {user.isActive ? 'Active' : 'Inactive'}
+                </span>
+              </TableCell>
+              <TableCell className="hidden sm:table-cell">
+                <div className="text-sm">
+                  <p className="text-gray-900">{new Date(user.createdAt).toLocaleDateString()}</p>
+                  <p className="text-gray-500 text-xs mt-1">Created</p>
+                </div>
+              </TableCell>
+              <TableCell className="hidden md:table-cell">
+                <div className="text-sm">
+                  <p className="text-gray-900">{user.creator?.name || '-'}</p>
+                  <p className="text-gray-500 text-xs mt-1">Creator</p>
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="table-actions">
+                  <Link href={`/users/${user.id}`} className="table-action-btn primary">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View
+                  </Link>
+                  <Link href={`/users/${user.id}/edit`} className="table-action-btn secondary">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Edit
+                  </Link>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   )
 
   return (
@@ -253,31 +330,36 @@ export function UsersPageClient({ users }: UsersPageProps) {
       {/* Users Display */}
       {filteredAndSortedUsers.length > 0 ? (
         viewMode === 'card' ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="cards-grid">
             {filteredAndSortedUsers.map(renderUserCard)}
           </div>
         ) : (
           renderUserTable()
         )
       ) : (
-        <div className="text-center py-12">
-          <div className="text-gray-500 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-            </svg>
+        <div className="card-professional">
+          <div className="card-content-professional text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-black mb-3">No users found</h3>
+            <p className="text-gray-600 mb-6 max-w-sm mx-auto">
+              {searchQuery || statusFilter
+                ? "Try adjusting your search or filters to find what you're looking for."
+                : "Get started by creating your first admin user to manage the system."
+              }
+            </p>
+            {!searchQuery && !statusFilter && (
+              <Link href="/users/new" className="card-action-btn primary inline-flex">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add New Admin User
+              </Link>
+            )}
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
-          <p className="text-gray-600 mb-4">
-            {searchQuery || statusFilter
-              ? "Try adjusting your search or filters to find what you're looking for."
-              : "Get started by creating your first admin user."
-            }
-          </p>
-          {!searchQuery && !statusFilter && (
-            <Link href="/users/new">
-              <Button>Add New Admin User</Button>
-            </Link>
-          )}
         </div>
       )}
     </div>

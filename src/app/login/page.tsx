@@ -72,16 +72,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+          <div className="mx-auto h-16 w-16 bg-red-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+            <span className="text-white font-bold text-2xl">F</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Fintech Manager</h1>
-          <p className="mt-2 text-gray-600">Sign in to your admin account</p>
+          <h1 className="text-3xl font-bold text-black">Fintech Manager</h1>
+          <p className="mt-2 text-gray-600 font-medium">Sign in to your admin account</p>
         </div>
 
         <Card>
@@ -131,10 +129,10 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <div className="text-sm text-gray-600">
-                <p className="font-medium">Default Admin Credentials:</p>
-                <p>Email: admin@fintech.com</p>
-                <p>Password: admin123</p>
+              <div className="text-sm bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p className="font-semibold text-black mb-2">Default Admin Credentials:</p>
+                <p className="text-gray-700"><span className="font-medium">Email:</span> admin@fintech.com</p>
+                <p className="text-gray-700"><span className="font-medium">Password:</span> admin123</p>
               </div>
             </div>
           </CardContent>
