@@ -1,14 +1,16 @@
 import { SelectHTMLAttributes, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
   label?: string
   error?: string
   options: { value: string; label: string }[]
+  showDefaultOption?: boolean
+  onChange?: (value: string) => void
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, error, options, ...props }, ref) => {
+  ({ className, label, error, options, showDefaultOption = true, onChange, ...props }, ref) => {
     return (
       <div className="space-y-1">
         {label && (
@@ -23,9 +25,10 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             className
           )}
           ref={ref}
+          onChange={(e) => onChange?.(e.target.value)}
           {...props}
         >
-          <option value="">Select an option</option>
+          {showDefaultOption && <option value="">Select an option</option>}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
