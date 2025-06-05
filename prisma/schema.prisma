@@ -26,6 +26,36 @@ enum ProductStatus {
   NEW
 }
 
+enum UserRole {
+  ADMIN
+}
+
+model User {
+  id                Int             @id @default(autoincrement())
+  email             String          @unique
+  name              String
+  password          String
+  role              UserRole        @default(ADMIN)
+  isActive          Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // User who created this admin user (for audit trail)
+  createdBy         Int?
+  creator           User?           @relation("UserCreatedBy", fields: [createdBy], references: [id])
+  createdUsers      User[]          @relation("UserCreatedBy")
+
+  // Track which admin created/updated companies and products
+  companiesCreated  FintechCompany[] @relation("CompanyCreatedBy")
+  companiesUpdated  FintechCompany[] @relation("CompanyUpdatedBy")
+  productsCreated   Product[]       @relation("ProductCreatedBy")
+  productsUpdated   Product[]       @relation("ProductUpdatedBy")
+
+  @@index([email])
+}
+
+
+
 model FintechCompany {
   id                       Int             @id @default(autoincrement())
   name                     String
@@ -35,7 +65,17 @@ model FintechCompany {
   status                   FintechStatus
   createdAt                DateTime        @default(now())
   updatedAt                DateTime        @updatedAt
+
+  // Track which admin created/updated this company
+  createdById              Int?
+  updatedById              Int?
+  createdBy                User?           @relation("CompanyCreatedBy", fields: [createdById], references: [id])
+  updatedBy                User?           @relation("CompanyUpdatedBy", fields: [updatedById], references: [id])
+
   products                 Product[]
+
+  @@index([createdById])
+  @@index([updatedById])
 }
 
 model Product {
@@ -48,7 +88,16 @@ model Product {
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
   fintechCompanyId   Int
+
+  // Track which admin created/updated this product
+  createdById        Int?
+  updatedById        Int?
+  createdBy          User?           @relation("ProductCreatedBy", fields: [createdById], references: [id])
+  updatedBy          User?           @relation("ProductUpdatedBy", fields: [updatedById], references: [id])
+
   fintechCompany     FintechCompany  @relation(fields: [fintechCompanyId], references: [id])
 
   @@index([fintechCompanyId])
+  @@index([createdById])
+  @@index([updatedById])
 }

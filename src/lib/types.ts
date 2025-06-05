@@ -1,6 +1,6 @@
-import { FintechCompany, Product, FintechStatus, ProductStatus } from '../generated/prisma'
+import { FintechCompany, Product, FintechStatus, ProductStatus, User, UserRole } from '../generated/prisma'
 
-export type { FintechCompany, Product, FintechStatus, ProductStatus }
+export type { FintechCompany, Product, FintechStatus, ProductStatus, User, UserRole }
 
 export interface FintechCompanyWithProducts extends FintechCompany {
   products: Product[]
@@ -12,6 +12,20 @@ export interface CreateFintechCompanyData {
   contactPersonPhoneNumber: string
   contactAddress: string
   status: FintechStatus
+  createdById?: number
+}
+
+export interface CreateUserData {
+  email: string
+  name: string
+  password: string
+  role: UserRole
+  createdBy?: number
+}
+
+export interface UpdateUserData extends Partial<CreateUserData> {
+  id: number
+  isActive?: boolean
 }
 
 export interface UpdateFintechCompanyData extends Partial<CreateFintechCompanyData> {
@@ -25,6 +39,7 @@ export interface CreateProductData {
   weakness: string
   status: ProductStatus
   fintechCompanyId: number
+  createdById?: number
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {

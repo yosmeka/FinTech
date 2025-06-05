@@ -56,20 +56,20 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!validateForm()) {
       return
     }
 
     setLoading(true)
-    
+
     try {
-      const url = mode === 'create' 
-        ? '/api/companies' 
+      const url = mode === 'create'
+        ? '/api/companies'
         : `/api/companies/${company!.id}`
-      
+
       const method = mode === 'create' ? 'POST' : 'PUT'
-      
+
       const response = await fetch(url, {
         method,
         headers: {
