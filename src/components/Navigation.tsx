@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
+
 import { Button } from './ui/Button'
 
 const navigation = [
@@ -68,9 +70,13 @@ export function Navigation() {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">F</span>
-                </div>
+                 <Image
+                              src="/zemen-logo.png"
+                              alt="Zemen Bank Logo"
+                              width={48}
+                              height={48}
+                              className="object-contain"
+                            />
                 <h1 className="text-xl font-bold text-black">
                   Fintech 
                 </h1>
