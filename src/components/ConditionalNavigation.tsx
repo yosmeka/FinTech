@@ -5,6 +5,7 @@ import { Navigation } from './Navigation'
 
 // Routes where navigation should NOT be shown
 const noNavigationRoutes = [
+  '/',
   '/login',
 ]
 

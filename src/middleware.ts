@@ -4,7 +4,7 @@ import { verifyTokenEdge } from './lib/auth'
 
 // Define protected routes
 const protectedRoutes = [
-  '/',
+  '/dashboard',
   '/companies',
   '/products',
   '/users',
@@ -23,30 +23,66 @@ const publicRoutes = [
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  
+  const isDevelopment = process.env.NODE_ENV === 'development'
+
+  // Enhanced logging for development
+  if (isDevelopment) {
+    console.log('🔒 Middleware - Processing path:', pathname)
+  }
+
   // Check if the route is public
   if (publicRoutes.some(route => pathname.startsWith(route))) {
+    if (isDevelopment) {
+      console.log('✅ Middleware - Public route, allowing access')
+    }
+    return NextResponse.next()
+  }
+
+  // Special handling for homepage (/) - redirect authenticated users to dashboard
+  if (pathname === '/') {
+    const token = request.cookies.get('fintech-auth-token')?.value
+    if (token) {
+      const payload = verifyTokenEdge(token)
+      if (payload) {
+        if (isDevelopment) {
+          console.log('🔄 Middleware - Authenticated user on login page, redirecting to dashboard')
+        }
+        const dashboardUrl = new URL('/dashboard', request.url)
+        return NextResponse.redirect(dashboardUrl)
+      }
+    }
+    // If not authenticated, allow access to login page (homepage)
+    if (isDevelopment) {
+      console.log('✅ Middleware - Unauthenticated user on login page, allowing access')
+    }
     return NextResponse.next()
   }
 
   // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(route => 
+  const isProtectedRoute = protectedRoutes.some(route =>
     pathname === route || pathname.startsWith(route + '/')
   )
 
   if (!isProtectedRoute) {
+    if (isDevelopment) {
+      console.log('⚪ Middleware - Non-protected route, allowing access')
+    }
     return NextResponse.next()
   }
 
   // Get the auth token from cookies
   const token = request.cookies.get('fintech-auth-token')?.value
 
-  console.log('Middleware - Path:', pathname)
-  console.log('Middleware - Token exists:', !!token)
-  console.log('Middleware - Token value:', token ? token.substring(0, 20) + '...' : 'none')
+  if (isDevelopment) {
+    console.log('🔍 Middleware - Protected route detected')
+    console.log('🍪 Middleware - Token exists:', !!token)
+    console.log('🔑 Middleware - Token preview:', token ? token.substring(0, 30) + '...' : 'none')
+  }
 
   if (!token) {
-    console.log('Middleware - No token, redirecting to login')
+    if (isDevelopment) {
+      console.log('❌ Middleware - No token found, redirecting to login')
+    }
     // Redirect to login if no token
     const loginUrl = new URL('/login', request.url)
     return NextResponse.redirect(loginUrl)
@@ -54,18 +90,32 @@ export async function middleware(request: NextRequest) {
 
   // Verify the token using edge-compatible method
   const payload = verifyTokenEdge(token)
-  console.log('Middleware - Token payload:', payload ? 'valid' : 'invalid')
+
+  if (isDevelopment) {
+    console.log('🔐 Middleware - Token verification result:', payload ? 'VALID' : 'INVALID')
+    if (payload) {
+      console.log('👤 Middleware - User:', payload.email, 'Role:', payload.role)
+    }
+  }
 
   if (!payload) {
-    console.log('Middleware - Invalid token, redirecting to login')
+    if (isDevelopment) {
+      console.log('❌ Middleware - Invalid/expired token, redirecting to login')
+    }
     // Redirect to login if token is invalid
     const loginUrl = new URL('/login', request.url)
     const response = NextResponse.redirect(loginUrl)
-    response.cookies.delete('fintech-auth-token')
+    // Clear the invalid token
+    response.cookies.set('fintech-auth-token', '', {
+      expires: new Date(0),
+      path: '/',
+    })
     return response
   }
 
-  console.log('Middleware - Authentication successful for user:', payload.email)
+  if (isDevelopment) {
+    console.log('✅ Middleware - Authentication successful, proceeding')
+  }
 
   // Add user info to headers for API routes
   const requestHeaders = new Headers(request.headers)

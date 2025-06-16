@@ -137,8 +137,8 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
       </div>
 
       {/* Content Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Company Information */}
           <div className="lg:col-span-1 space-y-6">
             {/* Company Details Card */}
@@ -252,8 +252,8 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
             <div className="card-professional">
               <div className="card-header-professional">
                 <div className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex-1">
                       <h2 className="card-title-professional">
                         Products ({filteredAndSortedProducts.length}{company.products.length !== filteredAndSortedProducts.length && ` of ${company.products.length}`})
                       </h2>
@@ -261,14 +261,14 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                         Products and services offered by this company
                       </p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                       {company.products.length > 0 && (
                         <ViewToggle
                           currentView={productsViewMode}
                           onViewChange={setProductsViewMode}
                         />
                       )}
-                      <Link href={`/products/new?companyId=${company.id}`} className="card-action-btn primary">
+                      <Link href={`/products/new?companyId=${company.id}`} className="card-action-btn primary w-full sm:w-auto justify-center">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
@@ -280,59 +280,73 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                   {/* Search and Filter Controls */}
                   {company.products.length > 0 && (
                     <div className="space-y-4">
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex-1">
-                          <SearchBar
-                            query={searchQuery}
-                            onQueryChange={setSearchQuery}
-                            placeholder="Search products by name, description, strengths, or weaknesses..."
-                            className="w-full"
-                          />
-                        </div>
-                        <div className="flex gap-3">
-                          <Select
-                            value={statusFilter}
-                            onChange={(value) => setStatusFilter(value as ProductStatus | 'ALL')}
-                            options={statusOptions}
-                            className="w-40"
-                          />
-                          <Select
-                            value={sortBy}
-                            onChange={(value) => setSortBy(value as 'name' | 'status' | 'created')}
-                            options={sortOptions}
-                            className="w-40"
-                          />
-                          <button
-                            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                            className="card-action-btn secondary px-3"
-                            title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
-                          >
-                            <svg className={`w-4 h-4 transition-transform ${sortOrder === 'desc' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                            </svg>
-                          </button>
-                        </div>
+                      {/* Search Bar - Full Width */}
+                      <div className="w-full">
+                        <SearchBar
+                          query={searchQuery}
+                          onQueryChange={setSearchQuery}
+                          placeholder="Search products by name, description, strengths, or weaknesses..."
+                          className="w-full"
+                        />
                       </div>
 
-                      {/* Active Filters Summary */}
+                      {/* Filter Controls - Responsive Layout */}
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Select
+                          value={statusFilter}
+                          onChange={(value) => setStatusFilter(value as ProductStatus | 'ALL')}
+                          options={statusOptions}
+                          className="w-full sm:w-40"
+                        />
+                        <Select
+                          value={sortBy}
+                          onChange={(value) => setSortBy(value as 'name' | 'status' | 'created')}
+                          options={sortOptions}
+                          className="w-full sm:w-40"
+                        />
+                        <button
+                          onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                          className="w-full sm:w-auto card-action-btn secondary px-3 flex items-center justify-center gap-2"
+                          title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+                        >
+                          <svg className={`w-4 h-4 transition-transform ${sortOrder === 'desc' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                          </svg>
+                          <span className="sm:hidden">
+                            Sort {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+                          </span>
+                        </button>
+                      </div>
+
+                      {/* Active Filters Summary - Mobile Responsive */}
                       {(searchQuery || statusFilter !== 'ALL') && (
-                        <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                          <div className="flex items-center gap-2 text-sm">
-                            <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                          <div className="flex items-start sm:items-center gap-2 text-sm">
+                            <svg className="w-4 h-4 text-blue-600 mt-0.5 sm:mt-0 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                             </svg>
-                            <span className="text-blue-800 font-medium">
-                              Active filters:
-                              {searchQuery && <span className="ml-1 px-2 py-1 bg-blue-100 rounded text-xs">Search: "{searchQuery}"</span>}
-                              {statusFilter !== 'ALL' && <span className="ml-1 px-2 py-1 bg-blue-100 rounded text-xs">Status: {statusOptions.find(opt => opt.value === statusFilter)?.label}</span>}
-                            </span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                              <span className="text-blue-800 font-medium">Active filters:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {searchQuery && (
+                                  <span className="px-2 py-1 bg-blue-100 rounded text-xs">
+                                    Search: "{searchQuery.length > 20 ? searchQuery.substring(0, 20) + '...' : searchQuery}"
+                                  </span>
+                                )}
+                                {statusFilter !== 'ALL' && (
+                                  <span className="px-2 py-1 bg-blue-100 rounded text-xs">
+                                    Status: {statusOptions.find(opt => opt.value === statusFilter)?.label}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
                           <button
                             onClick={() => {
                               setSearchQuery('')
                               setStatusFilter('ALL')
                             }}
-                            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                            className="text-blue-600 hover:text-blue-800 text-sm font-medium self-start sm:self-auto"
                           >
                             Clear all
                           </button>
@@ -392,8 +406,8 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                     )}
                   </div>
                 ) : productsViewMode === 'card' ? (
-                  // Professional Card View
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  // Professional Card View - Mobile Responsive
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6">
                     {filteredAndSortedProducts.map((product) => (
                     <div key={product.id} className="card-professional">
                       {/* Product Card Header */}
@@ -437,26 +451,26 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                           </p>
                         </div>
 
-                        {/* Strengths & Weaknesses */}
-                        <div className="grid grid-cols-1 gap-4 mb-6">
+                        {/* Strengths & Weaknesses - Mobile Responsive */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 mb-6">
                           <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 mb-2">
-                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                               <span className="text-xs font-bold text-green-800 uppercase tracking-wider">Strengths</span>
                             </div>
-                            <p className="text-sm text-green-700 line-clamp-2">{product.strength}</p>
+                            <p className="text-sm text-green-700 line-clamp-3 leading-relaxed">{product.strength}</p>
                           </div>
 
                           <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 mb-2">
-                              <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-4 h-4 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                               </svg>
                               <span className="text-xs font-bold text-red-800 uppercase tracking-wider">Weaknesses</span>
                             </div>
-                            <p className="text-sm text-red-700 line-clamp-2">{product.weakness}</p>
+                            <p className="text-sm text-red-700 line-clamp-3 leading-relaxed">{product.weakness}</p>
                           </div>
                         </div>
 
@@ -474,16 +488,16 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                         </div>
                       </div>
 
-                      {/* Product Card Actions */}
-                      <div className="card-actions">
-                        <Link href={`/products/${product.id}`} className="card-action-btn primary">
+                      {/* Product Card Actions - Mobile Responsive */}
+                      <div className="card-actions flex-col sm:flex-row gap-2 sm:gap-3">
+                        <Link href={`/products/${product.id}`} className="card-action-btn primary w-full sm:w-auto justify-center">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
                           View Details
                         </Link>
-                        <Link href={`/products/${product.id}/edit`} className="card-action-btn secondary">
+                        <Link href={`/products/${product.id}/edit`} className="card-action-btn secondary w-full sm:w-auto justify-center">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
@@ -494,18 +508,18 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                     ))}
                   </div>
                 ) : (
-                  // Professional Table View
-                  <div className="table-container">
+                  // Professional Table View - Mobile Responsive
+                  <div className="table-container overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Product Name</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead className="hidden lg:table-cell">Description</TableHead>
-                          <TableHead className="hidden xl:table-cell">Strengths</TableHead>
-                          <TableHead className="hidden xl:table-cell">Weaknesses</TableHead>
-                          <TableHead className="hidden sm:table-cell">Created</TableHead>
-                          <TableHead>Actions</TableHead>
+                          <TableHead className="min-w-[200px]">Product Name</TableHead>
+                          <TableHead className="min-w-[100px]">Status</TableHead>
+                          <TableHead className="hidden lg:table-cell min-w-[200px]">Description</TableHead>
+                          <TableHead className="hidden xl:table-cell min-w-[150px]">Strengths</TableHead>
+                          <TableHead className="hidden xl:table-cell min-w-[150px]">Weaknesses</TableHead>
+                          <TableHead className="hidden sm:table-cell min-w-[120px]">Created</TableHead>
+                          <TableHead className="min-w-[120px]">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -567,19 +581,19 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <div className="table-actions">
-                              <Link href={`/products/${product.id}`} className="table-action-btn primary">
+                            <div className="table-actions flex flex-col sm:flex-row gap-1 sm:gap-2">
+                              <Link href={`/products/${product.id}`} className="table-action-btn primary text-xs px-2 py-1">
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
-                                View
+                                <span className="hidden sm:inline">View</span>
                               </Link>
-                              <Link href={`/products/${product.id}/edit`} className="table-action-btn secondary">
+                              <Link href={`/products/${product.id}/edit`} className="table-action-btn secondary text-xs px-2 py-1">
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
-                                Edit
+                                <span className="hidden sm:inline">Edit</span>
                               </Link>
                             </div>
                           </TableCell>

@@ -80,16 +80,16 @@ export function CompaniesPageClient({ companies }: CompaniesPageProps) {
   }, [companies, searchQuery, statusFilter, sortBy])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Companies</h1>
-          <p className="mt-2 text-gray-600">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <div className="flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Companies</h1>
+          <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">
             Manage your fintech companies
           </p>
         </div>
-        <Link href="/companies/new">
-          <Button>Add Company</Button>
+        <Link href="/companies/new" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">Add Company</Button>
         </Link>
       </div>
 
@@ -100,32 +100,35 @@ export function CompaniesPageClient({ companies }: CompaniesPageProps) {
           onSearch={setSearchQuery}
         />
 
-        <div className="flex flex-wrap gap-4 items-end">
-          <FilterSort
-            filters={[
-              {
-                label: "Status",
-                value: statusFilter,
-                options: Object.entries(FINTECH_STATUS_LABELS).map(([value, label]) => ({
-                  value,
-                  label
-                })),
-                onChange: setStatusFilter
-              }
-            ]}
-            sortOptions={[
-              { value: 'name-asc', label: 'Name (A-Z)' },
-              { value: 'name-desc', label: 'Name (Z-A)' },
-              { value: 'status-asc', label: 'Status (A-Z)' },
-              { value: 'status-desc', label: 'Status (Z-A)' },
-              { value: 'products-desc', label: 'Most Products' },
-              { value: 'products-asc', label: 'Least Products' },
-              { value: 'createdAt-desc', label: 'Newest First' },
-              { value: 'createdAt-asc', label: 'Oldest First' },
-            ]}
-            sortValue={sortBy}
-            onSortChange={setSortBy}
-          />
+        <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
+          <div className="flex-1">
+            <FilterSort
+              filters={[
+                {
+                  label: "Status",
+                  value: statusFilter,
+                  options: Object.entries(FINTECH_STATUS_LABELS).map(([value, label]) => ({
+                    value,
+                    label
+                  })),
+                  onChange: setStatusFilter
+                }
+              ]}
+              sortOptions={[
+                { value: 'name-asc', label: 'Name (A-Z)' },
+                { value: 'name-desc', label: 'Name (Z-A)' },
+                { value: 'status-asc', label: 'Status (A-Z)' },
+                { value: 'status-desc', label: 'Status (Z-A)' },
+                { value: 'products-desc', label: 'Most Products' },
+                { value: 'products-asc', label: 'Least Products' },
+                { value: 'createdAt-desc', label: 'Newest First' },
+                { value: 'createdAt-asc', label: 'Oldest First' },
+              ]}
+              sortValue={sortBy}
+              onSortChange={setSortBy}
+              className="w-full"
+            />
+          </div>
 
           <ViewToggle
             currentView={viewMode}
@@ -136,10 +139,18 @@ export function CompaniesPageClient({ companies }: CompaniesPageProps) {
 
       {/* Results count */}
       <div className="flex justify-between items-center mb-6">
-        <div className="text-sm text-gray-600">
+        <div className="text-xs sm:text-sm text-gray-600 px-1">
           {filteredAndSortedCompanies.length} of {companies.length} {companies.length === 1 ? 'company' : 'companies'}
-          {searchQuery && ` matching "${searchQuery}"`}
-          {statusFilter && ` with status "${FINTECH_STATUS_LABELS[statusFilter as FintechStatus]}"`}
+          {searchQuery && (
+            <span className="block sm:inline">
+              {' '}matching "{searchQuery.length > 30 ? searchQuery.substring(0, 30) + '...' : searchQuery}"
+            </span>
+          )}
+          {statusFilter && (
+            <span className="block sm:inline">
+              {' '}with status "{FINTECH_STATUS_LABELS[statusFilter as FintechStatus]}"
+            </span>
+          )}
         </div>
       </div>
 

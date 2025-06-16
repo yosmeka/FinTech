@@ -80,26 +80,26 @@ export function ProductsCards({ products }: ProductsCardsProps) {
               </p>
             </div>
 
-            {/* Strengths & Weaknesses */}
-            <div className="grid grid-cols-1 gap-4 mb-6">
+            {/* Strengths & Weaknesses - Mobile Responsive */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 mb-6">
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-xs font-bold text-green-800 uppercase tracking-wider">Strengths</span>
                 </div>
-                <p className="text-sm text-green-700 line-clamp-2">{product.strength}</p>
+                <p className="text-sm text-green-700 line-clamp-3 leading-relaxed">{product.strength}</p>
               </div>
 
               <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-xs font-bold text-red-800 uppercase tracking-wider">Weaknesses</span>
                 </div>
-                <p className="text-sm text-red-700 line-clamp-2">{product.weakness}</p>
+                <p className="text-sm text-red-700 line-clamp-3 leading-relaxed">{product.weakness}</p>
               </div>
             </div>
 
@@ -127,16 +127,16 @@ export function ProductsCards({ products }: ProductsCardsProps) {
             </div>
           </div>
 
-          {/* Card Actions */}
-          <div className="card-actions">
-            <Link href={`/products/${product.id}`} className="card-action-btn primary">
+          {/* Card Actions - Mobile Responsive */}
+          <div className="card-actions flex-col sm:flex-row gap-2 sm:gap-3">
+            <Link href={`/products/${product.id}`} className="card-action-btn primary w-full sm:w-auto justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
               View Details
             </Link>
-            <Link href={`/products/${product.id}/edit`} className="card-action-btn secondary">
+            <Link href={`/products/${product.id}/edit`} className="card-action-btn secondary w-full sm:w-auto justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>

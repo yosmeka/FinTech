@@ -68,27 +68,73 @@ export function verifyToken(token: string): TokenPayload | null {
 // Edge-compatible JWT verification for middleware
 export function verifyTokenEdge(token: string): TokenPayload | null {
   try {
+    const isDevelopment = process.env.NODE_ENV === 'development'
+
+    if (!token || typeof token !== 'string') {
+      if (isDevelopment) console.log('🔐 Edge verification - Invalid token format')
+      return null
+    }
+
     // Simple JWT parsing without crypto verification for Edge runtime
     const parts = token.split('.')
     if (parts.length !== 3) {
+      if (isDevelopment) console.log('🔐 Edge verification - Invalid JWT structure')
       return null
     }
 
     // Decode payload (base64url)
-    const payload = JSON.parse(
-      Buffer.from(parts[1].replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString()
-    )
-
-    // Check expiration
-    if (payload.exp && Date.now() >= payload.exp * 1000) {
-      console.log('Token expired')
+    let payload: any
+    try {
+      const base64Payload = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+      const paddedPayload = base64Payload + '='.repeat((4 - base64Payload.length % 4) % 4)
+      payload = JSON.parse(Buffer.from(paddedPayload, 'base64').toString())
+    } catch (decodeError) {
+      if (isDevelopment) console.log('🔐 Edge verification - Failed to decode payload:', decodeError)
       return null
     }
 
-    console.log('Edge token verification successful:', payload)
-    return payload as TokenPayload
+    // Validate required fields
+    if (!payload.userId || !payload.email || !payload.role) {
+      if (isDevelopment) console.log('🔐 Edge verification - Missing required payload fields')
+      return null
+    }
+
+    // Check expiration
+    if (payload.exp) {
+      const now = Math.floor(Date.now() / 1000)
+      if (now >= payload.exp) {
+        if (isDevelopment) console.log('🔐 Edge verification - Token expired')
+        return null
+      }
+    } else {
+      if (isDevelopment) console.log('🔐 Edge verification - No expiration field found')
+      return null
+    }
+
+    // Check issued at time (not too old)
+    if (payload.iat) {
+      const now = Math.floor(Date.now() / 1000)
+      const maxAge = 7 * 24 * 60 * 60 // 7 days in seconds
+      if (now - payload.iat > maxAge) {
+        if (isDevelopment) console.log('🔐 Edge verification - Token too old')
+        return null
+      }
+    }
+
+    if (isDevelopment) {
+      console.log('🔐 Edge verification - Token valid for user:', payload.email)
+    }
+
+    return {
+      userId: payload.userId,
+      email: payload.email,
+      role: payload.role,
+    } as TokenPayload
   } catch (error) {
-    console.error('Edge token verification failed:', error)
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    if (isDevelopment) {
+      console.error('🔐 Edge verification - Unexpected error:', error)
+    }
     return null
   }
 }

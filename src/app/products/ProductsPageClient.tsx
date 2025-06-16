@@ -95,16 +95,16 @@ export function ProductsPageClient({ products }: ProductsPageProps) {
   }, [products, searchQuery, statusFilter, companyFilter, sortBy])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Products</h1>
-          <p className="mt-2 text-gray-600">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+        <div className="flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Products</h1>
+          <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">
             Manage fintech products
           </p>
         </div>
-        <Link href="/products/new">
-          <Button>Add Product</Button>
+        <Link href="/products/new" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">Add Product</Button>
         </Link>
       </div>
 
@@ -115,41 +115,44 @@ export function ProductsPageClient({ products }: ProductsPageProps) {
           onSearch={setSearchQuery}
         />
 
-        <div className="flex flex-wrap gap-4 items-end">
-          <FilterSort
-            filters={[
-              {
-                label: "Status",
-                value: statusFilter,
-                options: Object.entries(PRODUCT_STATUS_LABELS).map(([value, label]) => ({
-                  value,
-                  label
-                })),
-                onChange: setStatusFilter
-              },
-              {
-                label: "Company",
-                value: companyFilter,
-                options: companies.map(company => ({
-                  value: company.id.toString(),
-                  label: company.name
-                })),
-                onChange: setCompanyFilter
-              }
-            ]}
-            sortOptions={[
-              { value: 'name-asc', label: 'Name (A-Z)' },
-              { value: 'name-desc', label: 'Name (Z-A)' },
-              { value: 'status-asc', label: 'Status (A-Z)' },
-              { value: 'status-desc', label: 'Status (Z-A)' },
-              { value: 'company-asc', label: 'Company (A-Z)' },
-              { value: 'company-desc', label: 'Company (Z-A)' },
-              { value: 'createdAt-desc', label: 'Newest First' },
-              { value: 'createdAt-asc', label: 'Oldest First' },
-            ]}
-            sortValue={sortBy}
-            onSortChange={setSortBy}
-          />
+        <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
+          <div className="flex-1">
+            <FilterSort
+              filters={[
+                {
+                  label: "Status",
+                  value: statusFilter,
+                  options: Object.entries(PRODUCT_STATUS_LABELS).map(([value, label]) => ({
+                    value,
+                    label
+                  })),
+                  onChange: setStatusFilter
+                },
+                {
+                  label: "Company",
+                  value: companyFilter,
+                  options: companies.map(company => ({
+                    value: company.id.toString(),
+                    label: company.name
+                  })),
+                  onChange: setCompanyFilter
+                }
+              ]}
+              sortOptions={[
+                { value: 'name-asc', label: 'Name (A-Z)' },
+                { value: 'name-desc', label: 'Name (Z-A)' },
+                { value: 'status-asc', label: 'Status (A-Z)' },
+                { value: 'status-desc', label: 'Status (Z-A)' },
+                { value: 'company-asc', label: 'Company (A-Z)' },
+                { value: 'company-desc', label: 'Company (Z-A)' },
+                { value: 'createdAt-desc', label: 'Newest First' },
+                { value: 'createdAt-asc', label: 'Oldest First' },
+              ]}
+              sortValue={sortBy}
+              onSortChange={setSortBy}
+              className="w-full"
+            />
+          </div>
 
           <ViewToggle
             currentView={viewMode}
@@ -160,11 +163,23 @@ export function ProductsPageClient({ products }: ProductsPageProps) {
 
       {/* Results count */}
       <div className="flex justify-between items-center mb-6">
-        <div className="text-sm text-gray-600">
+        <div className="text-xs sm:text-sm text-gray-600 px-1">
           {filteredAndSortedProducts.length} of {products.length} {products.length === 1 ? 'product' : 'products'}
-          {searchQuery && ` matching "${searchQuery}"`}
-          {statusFilter && ` with status "${PRODUCT_STATUS_LABELS[statusFilter as ProductStatus]}"`}
-          {companyFilter && ` from "${companies.find(c => c.id.toString() === companyFilter)?.name}"`}
+          {searchQuery && (
+            <span className="block sm:inline">
+              {' '}matching "{searchQuery.length > 25 ? searchQuery.substring(0, 25) + '...' : searchQuery}"
+            </span>
+          )}
+          {statusFilter && (
+            <span className="block sm:inline">
+              {' '}with status "{PRODUCT_STATUS_LABELS[statusFilter as ProductStatus]}"
+            </span>
+          )}
+          {companyFilter && (
+            <span className="block sm:inline">
+              {' '}from "{companies.find(c => c.id.toString() === companyFilter)?.name}"
+            </span>
+          )}
         </div>
       </div>
 

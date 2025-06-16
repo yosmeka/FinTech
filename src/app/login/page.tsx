@@ -44,12 +44,12 @@ export default function LoginPage() {
       // Multiple redirect approaches for reliability
       setTimeout(() => {
         // Method 1: Router push
-        router.push('/')
+        router.push('/dashboard')
         router.refresh()
 
         // Method 2: Force page reload as fallback
         setTimeout(() => {
-          window.location.href = '/'
+          window.location.href = '/dashboard'
         }, 2000)
       }, 1500)
       

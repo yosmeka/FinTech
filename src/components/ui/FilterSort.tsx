@@ -25,18 +25,18 @@ interface FilterSortProps {
   className?: string
 }
 
-export function FilterSort({ 
-  filters = [], 
-  sortOptions = [], 
-  sortValue = '', 
+export function FilterSort({
+  filters = [],
+  sortOptions = [],
+  sortValue = '',
   onSortChange,
   className = ""
 }: FilterSortProps) {
   return (
-    <div className={`flex flex-wrap gap-4 ${className}`}>
+    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ${className}`}>
       {/* Filters */}
       {filters.map((filter, index) => (
-        <div key={index} className="min-w-[200px]">
+        <div key={index} className="w-full">
           <Select
             label={filter.label}
             value={filter.value}
@@ -46,19 +46,21 @@ export function FilterSort({
               { value: '', label: `All ${filter.label}` },
               ...filter.options
             ]}
+            className="w-full"
           />
         </div>
       ))}
-      
+
       {/* Sort */}
       {sortOptions.length > 0 && onSortChange && (
-        <div className="min-w-[200px]">
+        <div className="w-full">
           <Select
             label="Sort by"
             value={sortValue}
             onChange={onSortChange}
             showDefaultOption={false}
             options={sortOptions}
+            className="w-full"
           />
         </div>
       )}
