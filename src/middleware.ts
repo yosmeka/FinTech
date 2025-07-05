@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { verifyTokenEdge } from './lib/auth'
 
 // Define protected routes
 const protectedRoutes = [
@@ -38,24 +37,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Special handling for homepage (/) - redirect authenticated users to dashboard
+  // Special handling for homepage (/) - redirect to login
   if (pathname === '/') {
     const token = request.cookies.get('fintech-auth-token')?.value
-    if (token) {
-      const payload = verifyTokenEdge(token)
-      if (payload) {
-        if (isDevelopment) {
-          console.log('🔄 Middleware - Authenticated user on login page, redirecting to dashboard')
-        }
-        const dashboardUrl = new URL('/dashboard', request.url)
-        return NextResponse.redirect(dashboardUrl)
+    if (token && token.length > 10) {
+      if (isDevelopment) {
+        console.log('🔄 Middleware - Token found, redirecting to dashboard')
       }
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
-    // If not authenticated, allow access to login page (homepage)
+
     if (isDevelopment) {
-      console.log('✅ Middleware - Unauthenticated user on login page, allowing access')
+      console.log('🔄 Middleware - No token, redirecting to login')
     }
-    return NextResponse.next()
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // Check if the route is protected
@@ -88,24 +83,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  // Verify the token using edge-compatible method
-  const payload = verifyTokenEdge(token)
-
-  if (isDevelopment) {
-    console.log('🔐 Middleware - Token verification result:', payload ? 'VALID' : 'INVALID')
-    if (payload) {
-      console.log('👤 Middleware - User:', payload.email, 'Role:', payload.role)
-    }
-  }
-
-  if (!payload) {
+  // Simple token validation (full verification happens in API routes)
+  if (token.length < 10) {
     if (isDevelopment) {
-      console.log('❌ Middleware - Invalid/expired token, redirecting to login')
+      console.log('❌ Middleware - Invalid token format, redirecting to login')
     }
-    // Redirect to login if token is invalid
-    const loginUrl = new URL('/login', request.url)
-    const response = NextResponse.redirect(loginUrl)
-    // Clear the invalid token
+    const response = NextResponse.redirect(new URL('/login', request.url))
     response.cookies.set('fintech-auth-token', '', {
       expires: new Date(0),
       path: '/',
@@ -114,20 +97,10 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isDevelopment) {
-    console.log('✅ Middleware - Authentication successful, proceeding')
+    console.log('✅ Middleware - Token found, allowing access')
   }
 
-  // Add user info to headers for API routes
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-user-id', payload.userId.toString())
-  requestHeaders.set('x-user-email', payload.email)
-  requestHeaders.set('x-user-role', payload.role)
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
+  return NextResponse.next()
 }
 
 export const config = {

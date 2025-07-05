@@ -9,24 +9,10 @@ import { ViewToggle, ViewMode } from '@/components/ui/ViewToggle'
 import { SearchBar } from '@/components/ui/SearchBar'
 import { FilterSort } from '@/components/ui/FilterSort'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
-
-interface User {
-  id: number
-  email: string
-  name: string
-  role: 'ADMIN'
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  creator?: {
-    id: number
-    name: string
-    email: string
-  }
-}
+import { UserClient } from '@/lib/types'
 
 interface UsersPageProps {
-  users: User[]
+  users: UserClient[]
 }
 
 export function UsersPageClient({ users }: UsersPageProps) {
@@ -90,7 +76,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
     return filtered
   }, [users, searchQuery, statusFilter, sortBy])
 
-  const renderUserCard = (user: User) => (
+  const renderUserCard = (user: UserClient) => (
     <div key={user.id} className="card-professional">
       {/* Card Header */}
       <div className="card-header-professional">

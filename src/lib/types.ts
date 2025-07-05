@@ -6,6 +6,35 @@ export interface FintechCompanyWithProducts extends FintechCompany {
   products: Product[]
 }
 
+// Client-side types with string dates for serialization
+export interface FintechCompanyClient extends Omit<FintechCompany, 'createdAt' | 'updatedAt'> {
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ProductClient extends Omit<Product, 'createdAt' | 'updatedAt'> {
+  createdAt: string
+  updatedAt: string
+}
+
+export interface FintechCompanyWithProductsClient extends FintechCompanyClient {
+  products: ProductClient[]
+}
+
+export interface UserClient extends Omit<User, 'createdAt' | 'updatedAt'> {
+  createdAt: string
+  updatedAt: string
+  creator?: {
+    id: number
+    name: string
+    email: string
+  }
+}
+
+export interface ProductWithCompanyClient extends ProductClient {
+  fintechCompany: FintechCompanyClient
+}
+
 export interface CreateFintechCompanyData {
   name: string
   address: string

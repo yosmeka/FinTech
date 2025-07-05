@@ -8,10 +8,10 @@ import { SearchBar } from '@/components/ui/SearchBar'
 import { FilterSort } from '@/components/ui/FilterSort'
 import { CompaniesCards } from '@/components/cards/CompaniesCards'
 import { CompaniesTable } from '@/components/tables/CompaniesTable'
-import { FintechCompanyWithProducts, FintechStatus, FINTECH_STATUS_LABELS } from '@/lib/types'
+import { FintechCompanyWithProductsClient, FintechStatus, FINTECH_STATUS_LABELS } from '@/lib/types'
 
 interface CompaniesPageProps {
-  companies: FintechCompanyWithProducts[]
+  companies: FintechCompanyWithProductsClient[]
 }
 
 export function CompaniesPageClient({ companies }: CompaniesPageProps) {

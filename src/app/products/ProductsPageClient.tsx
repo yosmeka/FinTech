@@ -8,14 +8,10 @@ import { SearchBar } from '@/components/ui/SearchBar'
 import { FilterSort } from '@/components/ui/FilterSort'
 import { ProductsCards } from '@/components/cards/ProductsCards'
 import { ProductsTable } from '@/components/tables/ProductsTable'
-import { Product, FintechCompany, ProductStatus, PRODUCT_STATUS_LABELS } from '@/lib/types'
-
-interface ProductWithCompany extends Product {
-  fintechCompany: FintechCompany
-}
+import { ProductWithCompanyClient, ProductStatus, PRODUCT_STATUS_LABELS } from '@/lib/types'
 
 interface ProductsPageProps {
-  products: ProductWithCompany[]
+  products: ProductWithCompanyClient[]
 }
 
 export function ProductsPageClient({ products }: ProductsPageProps) {

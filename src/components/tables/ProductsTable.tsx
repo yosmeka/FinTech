@@ -3,15 +3,11 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
-import { Product, FintechCompany, PRODUCT_STATUS_COLORS, PRODUCT_STATUS_LABELS } from '@/lib/types'
+import { ProductWithCompanyClient, PRODUCT_STATUS_LABELS } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
-interface ProductWithCompany extends Product {
-  fintechCompany: FintechCompany
-}
-
 interface ProductsTableProps {
-  products: ProductWithCompany[]
+  products: ProductWithCompanyClient[]
 }
 
 export function ProductsTable({ products }: ProductsTableProps) {

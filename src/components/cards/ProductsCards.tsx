@@ -1,13 +1,9 @@
 import Link from 'next/link'
-import { Product, FintechCompany, PRODUCT_STATUS_LABELS } from '@/lib/types'
+import { ProductWithCompanyClient, PRODUCT_STATUS_LABELS } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
-interface ProductWithCompany extends Product {
-  fintechCompany: FintechCompany
-}
-
 interface ProductsCardsProps {
-  products: ProductWithCompany[]
+  products: ProductWithCompanyClient[]
 }
 
 export function ProductsCards({ products }: ProductsCardsProps) {

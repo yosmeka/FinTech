@@ -6,11 +6,11 @@ import { ViewToggle, ViewMode } from '@/components/ui/ViewToggle'
 import { SearchBar } from '@/components/ui/SearchBar'
 import { Select } from '@/components/ui/Select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
-import { FintechCompanyWithProducts, FINTECH_STATUS_LABELS, PRODUCT_STATUS_LABELS, ProductStatus } from '@/lib/types'
+import { FintechCompanyWithProductsClient, FINTECH_STATUS_LABELS, PRODUCT_STATUS_LABELS, ProductStatus } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
 interface CompanyDetailClientProps {
-  company: FintechCompanyWithProducts
+  company: FintechCompanyWithProductsClient
 }
 
 export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
@@ -104,9 +104,9 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                 </p>
                 <div className="flex items-center gap-4">
                   <span className={`card-status-badge ${
-                    company.status === 'ACTIVE' ? 'success' :
-                    company.status === 'INACTIVE' ? 'error' :
-                    company.status === 'PENDING' ? 'warning' : 'info'
+                    company.status === 'ENGAGED' ? 'success' :
+                    company.status === 'RETIRED' ? 'error' :
+                    company.status === 'NEW' ? 'warning' : 'info'
                   }`}>
                     {FINTECH_STATUS_LABELS[company.status]}
                   </span>

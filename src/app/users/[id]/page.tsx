@@ -71,9 +71,10 @@ async function getUser(id: number) {
 export default async function UserDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const id = parseInt(params.id)
+  const { id: idParam } = await params
+  const id = parseInt(idParam)
   const user = await getUser(id)
 
   if (!user) {
@@ -111,8 +112,8 @@ export default async function UserDetailPage({
               </div>
               <div>
                 <span className="font-medium text-gray-700">Status:</span>
-                <Badge 
-                  variant={user.isActive ? "default" : "destructive"}
+                <Badge
+                  variant={user.isActive ? "default" : "danger"}
                   className="ml-2"
                 >
                   {user.isActive ? 'Active' : 'Inactive'}
@@ -152,7 +153,7 @@ export default async function UserDetailPage({
                         <p className="font-medium">{createdUser.name}</p>
                         <p className="text-sm text-gray-600">{createdUser.email}</p>
                       </div>
-                      <Badge variant={createdUser.isActive ? "default" : "destructive"}>
+                      <Badge variant={createdUser.isActive ? "default" : "danger"}>
                         {createdUser.isActive ? 'Active' : 'Inactive'}
                       </Badge>
                     </div>

@@ -14,5 +14,18 @@ async function getProducts() {
 
 export default async function ProductsPage() {
   const products = await getProducts()
-  return <ProductsPageClient products={products} />
+
+  // Convert dates to strings for the client component
+  const productsForClient = products.map(product => ({
+    ...product,
+    createdAt: product.createdAt.toISOString(),
+    updatedAt: product.updatedAt.toISOString(),
+    fintechCompany: {
+      ...product.fintechCompany,
+      createdAt: product.fintechCompany.createdAt.toISOString(),
+      updatedAt: product.fintechCompany.updatedAt.toISOString(),
+    },
+  }))
+
+  return <ProductsPageClient products={productsForClient} />
 }

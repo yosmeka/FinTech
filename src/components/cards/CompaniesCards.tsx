@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { FintechCompanyWithProducts, FINTECH_STATUS_LABELS } from '@/lib/types'
+import { FintechCompanyWithProductsClient, FINTECH_STATUS_LABELS } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
 interface CompaniesCardsProps {
-  companies: FintechCompanyWithProducts[]
+  companies: FintechCompanyWithProductsClient[]
 }
 
 export function CompaniesCards({ companies }: CompaniesCardsProps) {
@@ -51,9 +51,9 @@ export function CompaniesCards({ companies }: CompaniesCardsProps) {
                 </p>
               </div>
               <span className={`card-status-badge ${
-                company.status === 'ACTIVE' ? 'success' :
-                company.status === 'INACTIVE' ? 'error' :
-                company.status === 'PENDING' ? 'warning' : 'info'
+                company.status === 'ENGAGED' ? 'success' :
+                company.status === 'RETIRED' ? 'error' :
+                company.status === 'NEW' ? 'warning' : 'info'
               }`}>
                 {FINTECH_STATUS_LABELS[company.status]}
               </span>

@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fintech Management App
 
-## Getting Started
+A comprehensive fintech company and product management system built with Next.js, TypeScript, and PostgreSQL.
 
-First, run the development server:
+## 🚀 Features
 
+- **Admin User Management**: Create and manage admin users with role-based access
+- **Company Management**: Full CRUD operations for fintech companies
+- **Product Management**: Manage products associated with companies
+- **Authentication**: Secure JWT-based authentication with bcrypt password hashing
+- **Professional UI**: Modern, responsive design with Tailwind CSS
+- **Search & Filter**: Advanced search and filtering capabilities
+- **Toast Notifications**: User-friendly feedback system
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT with bcryptjs
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel, Railway, Docker support
+
+## 🚀 Quick Deployment
+
+### One-Click Deployment
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Platform-Specific Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Vercel (Recommended)
+```bash
+npm install -g vercel
+vercel
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Docker
+```bash
+npm run docker:compose
+```
 
-## Learn More
+#### Railway/DigitalOcean
+Follow the interactive deployment wizard: `npm run deploy`
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Local Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone and Install**
+   ```bash
+   git clone <your-repo-url>
+   cd fintech-app
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Set up Environment**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database URL and JWT secret
+   ```
 
-## Deploy on Vercel
+3. **Set up Database**
+   ```bash
+   npm run db:push
+   npm run db:seed
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Start Development Server**
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Open Application**
+   Visit [http://localhost:3000](http://localhost:3000)
+   Login with: `admin@fintech.com` / `admin123`
+
+## 📋 Environment Variables
+
+Required environment variables:
+
+```env
+DATABASE_URL="postgresql://user:password@host:port/database"
+JWT_SECRET="your-super-secret-jwt-key-at-least-32-characters-long"
+NODE_ENV="production"
+```
+
+## 🔧 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run deploy` - Interactive deployment wizard
+- `npm run setup:prod` - Production environment setup
+- `npm run docker:compose` - Docker deployment
+- `npm run db:generate` - Generate Prisma client
+- `npm run db:push` - Push schema to database
+- `npm run db:migrate` - Run database migrations
+- `npm run db:seed` - Seed database with initial data
+
+## 📚 Documentation
+
+- [Deployment Guide](./DEPLOYMENT.md) - Comprehensive deployment instructions
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+## 🔐 Default Credentials
+
+After deployment and seeding:
+- **Email**: admin@fintech.com
+- **Password**: admin123
+
+⚠️ **Important**: Change the default password immediately after first login!
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.

@@ -27,14 +27,23 @@ async function getUser(id: number) {
 export default async function EditUserPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const id = parseInt(params.id)
+  const { id: idParam } = await params
+  const id = parseInt(idParam)
   const user = await getUser(id)
 
   if (!user) {
     notFound()
   }
 
-  return <UserForm user={user} mode="edit" />
+  // Convert dates to strings and handle null creator for the form component
+  const userForForm = {
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+    creator: user.creator || undefined,
+  }
+
+  return <UserForm user={userForForm} mode="edit" />
 }

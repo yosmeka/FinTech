@@ -24,9 +24,22 @@ async function getCompany(id: string) {
 export default async function CompanyDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const company = await getCompany(params.id)
+  const { id } = await params
+  const company = await getCompany(id)
 
-  return <CompanyDetailClient company={company} />
+  // Convert dates to strings for the client component
+  const companyForClient = {
+    ...company,
+    createdAt: company.createdAt.toISOString(),
+    updatedAt: company.updatedAt.toISOString(),
+    products: company.products.map(product => ({
+      ...product,
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
+    })),
+  }
+
+  return <CompanyDetailClient company={companyForClient} />
 }

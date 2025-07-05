@@ -5,11 +5,11 @@ import { UpdateUserData } from '@/lib/auth'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
-    
+
     if (!currentUser) {
       return NextResponse.json(
         { error: 'Not authenticated' },
@@ -17,7 +17,8 @@ export async function GET(
       )
     }
 
-    const id = parseInt(params.id)
+    const { id: idParam } = await params
+    const id = parseInt(idParam)
     
     const user = await prisma.user.findUnique({
       where: { id },
@@ -58,11 +59,11 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
-    
+
     if (!currentUser) {
       return NextResponse.json(
         { error: 'Not authenticated' },
@@ -70,7 +71,8 @@ export async function PUT(
       )
     }
 
-    const id = parseInt(params.id)
+    const { id: idParam } = await params
+    const id = parseInt(idParam)
     const body: Omit<UpdateUserData, 'id'> = await request.json()
     
     // Prepare update data
@@ -123,11 +125,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
-    
+
     if (!currentUser) {
       return NextResponse.json(
         { error: 'Not authenticated' },
@@ -135,7 +137,8 @@ export async function DELETE(
       )
     }
 
-    const id = parseInt(params.id)
+    const { id: idParam } = await params
+    const id = parseInt(idParam)
     
     // Prevent self-deletion
     if (id === currentUser.id) {

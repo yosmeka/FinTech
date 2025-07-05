@@ -17,9 +17,10 @@ async function getCompany(id: string) {
 export default async function EditCompanyPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const company = await getCompany(params.id)
+  const { id } = await params
+  const company = await getCompany(id)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

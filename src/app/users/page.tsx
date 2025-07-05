@@ -27,5 +27,14 @@ async function getUsers() {
 
 export default async function UsersPage() {
   const users = await getUsers()
-  return <UsersPageClient users={users} />
+
+  // Convert dates to strings and handle null creators for the client component
+  const usersForClient = users.map(user => ({
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+    creator: user.creator || undefined,
+  }))
+
+  return <UsersPageClient users={usersForClient} />
 }

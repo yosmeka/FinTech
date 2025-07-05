@@ -3,11 +3,11 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
-import { FintechCompanyWithProducts, FINTECH_STATUS_COLORS, FINTECH_STATUS_LABELS } from '@/lib/types'
+import { FintechCompanyWithProductsClient, FINTECH_STATUS_LABELS } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
 interface CompaniesTableProps {
-  companies: FintechCompanyWithProducts[]
+  companies: FintechCompanyWithProductsClient[]
 }
 
 export function CompaniesTable({ companies }: CompaniesTableProps) {
