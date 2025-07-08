@@ -199,12 +199,14 @@ export async function authenticateUser(email: string, password: string): Promise
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     })
+    console.log('User found:', user)
 
     if (!user || !user.isActive) {
       return null
     }
 
     const isValidPassword = await verifyPassword(password, user.password)
+    console.log('isValidPassword:', isValidPassword)
     if (!isValidPassword) {
       return null
     }
@@ -216,7 +218,8 @@ export async function authenticateUser(email: string, password: string): Promise
       role: user.role as 'ADMIN',
       isActive: user.isActive,
     }
-  } catch {
+  } catch (e) {
+    console.error('Error in authenticateUser:', e)
     return null
   }
 }
