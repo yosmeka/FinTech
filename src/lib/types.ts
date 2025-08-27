@@ -21,9 +21,10 @@ export interface FintechCompanyWithProductsClient extends FintechCompanyClient {
   products: ProductClient[]
 }
 
-export interface UserClient extends Omit<User, 'createdAt' | 'updatedAt'> {
+export interface UserClient extends Omit<User, 'createdAt' | 'updatedAt' | 'password'> {
   createdAt: string
   updatedAt: string
+  createdBy: number | null
   creator?: {
     id: number
     name: string

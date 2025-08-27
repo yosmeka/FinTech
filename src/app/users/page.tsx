@@ -11,6 +11,7 @@ async function getUsers() {
       isActive: true,
       createdAt: true,
       updatedAt: true,
+      createdBy: true,
       creator: {
         select: {
           id: true,
