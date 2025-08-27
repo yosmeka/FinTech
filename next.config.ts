@@ -4,10 +4,9 @@ const nextConfig: NextConfig = {
   // Enable standalone output for Docker deployments
   output: 'standalone',
 
-  // Optimize images
+  // Disable image optimization to fix local development issues
   images: {
-    domains: ['localhost'],
-    unoptimized: false,
+    unoptimized: true,
   },
 
   // Enable compression

@@ -29,14 +29,16 @@ export async function POST(request: NextRequest) {
     })
 
     const response = NextResponse.json({
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      },
-      message: 'Login successful',
-    })
+  token, // <-- add this line
+  user: {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+  },
+  message: 'Login successful',
+})
+
 
     // Set cookie using response headers (more reliable)
     const isProduction = process.env.NODE_ENV === 'production'

@@ -1,18 +1,6 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-// Define protected routes
-const protectedRoutes = [
-  '/dashboard',
-  '/companies',
-  '/products',
-  '/users',
-  '/api/companies',
-  '/api/products',
-  '/api/users',
-]
-
-// Define public routes that don't require authentication
+// Define public routes
 const publicRoutes = [
   '/login',
   '/api/auth/login',
@@ -20,98 +8,150 @@ const publicRoutes = [
   '/api/auth/setup',
 ]
 
+// Simple JWT verification for Edge runtime
+function verifyTokenEdge(token: string): any {
+  try {
+    if (!token || typeof token !== 'string') {
+      return null
+    }
+
+    // Simple JWT parsing without crypto verification for Edge runtime
+    const parts = token.split('.')
+    if (parts.length !== 3) {
+      return null
+    }
+
+    // Decode payload (base64url)
+    let payload: any
+    try {
+      const base64Payload = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+      const paddedPayload = base64Payload + '='.repeat((4 - base64Payload.length % 4) % 4)
+      payload = JSON.parse(Buffer.from(paddedPayload, 'base64').toString())
+    } catch (decodeError) {
+      return null
+    }
+
+    // Validate required fields
+    if (!payload.userId || !payload.email || !payload.role) {
+      return null
+    }
+
+    // Check expiration
+    if (payload.exp) {
+      const now = Math.floor(Date.now() / 1000)
+      if (now >= payload.exp) {
+        return null
+      }
+    }
+
+    return payload
+  } catch (error) {
+    return null
+  }
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const isDevelopment = process.env.NODE_ENV === 'development'
+  const isApiRoute = pathname.startsWith('/api')
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
+  const isDev = process.env.NODE_ENV === 'development'
 
-  // Enhanced logging for development
-  if (isDevelopment) {
-    console.log('🔒 Middleware - Processing path:', pathname)
+  // Debug logging for development
+  if (isDev) {
+    console.log('🔒 Middleware - Processing:', pathname)
   }
 
-  // Check if the route is public
-  if (publicRoutes.some(route => pathname.startsWith(route))) {
-    if (isDevelopment) {
+  // Skip public routes
+  if (isPublicRoute) {
+    if (isDev) {
       console.log('✅ Middleware - Public route, allowing access')
     }
     return NextResponse.next()
   }
 
-  // Special handling for homepage (/) - redirect to login
-  if (pathname === '/') {
-    const token = request.cookies.get('fintech-auth-token')?.value
-    if (token && token.length > 10) {
-      if (isDevelopment) {
-        console.log('🔄 Middleware - Token found, redirecting to dashboard')
-      }
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-
-    if (isDevelopment) {
-      console.log('🔄 Middleware - No token, redirecting to login')
-    }
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(route =>
-    pathname === route || pathname.startsWith(route + '/')
-  )
-
-  if (!isProtectedRoute) {
-    if (isDevelopment) {
-      console.log('⚪ Middleware - Non-protected route, allowing access')
-    }
-    return NextResponse.next()
-  }
-
-  // Get the auth token from cookies
+  // Get token from cookie
   const token = request.cookies.get('fintech-auth-token')?.value
 
-  if (isDevelopment) {
-    console.log('🔍 Middleware - Protected route detected')
+  if (isDev) {
     console.log('🍪 Middleware - Token exists:', !!token)
     console.log('🔑 Middleware - Token preview:', token ? token.substring(0, 30) + '...' : 'none')
   }
 
+  // Handle root path - redirect to dashboard if authenticated
+  if (pathname === '/') {
+    if (token) {
+      const payload = verifyTokenEdge(token)
+      if (payload) {
+        if (isDev) {
+          console.log('🔄 Middleware - Root path, token verified:', payload)
+          console.log('🔄 Middleware - Root path, redirecting to dashboard')
+        }
+        return NextResponse.redirect(new URL('/dashboard', request.url))
+      } else {
+        if (isDev) {
+          console.log('❌ Middleware - Invalid token on root path')
+        }
+      }
+    }
+    if (isDev) {
+      console.log('🔄 Middleware - Root path, redirecting to login')
+    }
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // 🔒 If it's an API route and no token, return JSON 401
+  if (isApiRoute) {
+    if (!token) {
+      if (isDev) {
+        console.log('❌ Middleware - API route without token')
+      }
+      return new NextResponse(
+        JSON.stringify({ error: 'Unauthorized: No token provided' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const payload = verifyTokenEdge(token)
+    if (payload) {
+      if (isDev) {
+        console.log('✅ Middleware - API route with valid token:', payload)
+      }
+      return NextResponse.next()
+    } else {
+      if (isDev) {
+        console.log('❌ Middleware - API route with invalid token')
+      }
+      return new NextResponse(
+        JSON.stringify({ error: 'Unauthorized: Invalid token' }),
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+  }
+
+  // 🔁 For page routes, redirect to /login if token is missing or invalid
   if (!token) {
-    if (isDevelopment) {
-      console.log('❌ Middleware - No token found, redirecting to login')
+    if (isDev) {
+      console.log('❌ Middleware - Page route without token, redirecting to login')
     }
-    // Redirect to login if no token
-    const loginUrl = new URL('/login', request.url)
-    return NextResponse.redirect(loginUrl)
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Simple token validation (full verification happens in API routes)
-  if (token.length < 10) {
-    if (isDevelopment) {
-      console.log('❌ Middleware - Invalid token format, redirecting to login')
+  const payload = verifyTokenEdge(token)
+  if (payload) {
+    if (isDev) {
+      console.log('✅ Middleware - Page route with valid token, allowing access:', payload)
     }
-    const response = NextResponse.redirect(new URL('/login', request.url))
-    response.cookies.set('fintech-auth-token', '', {
-      expires: new Date(0),
-      path: '/',
-    })
-    return response
+    return NextResponse.next()
+  } else {
+    if (isDev) {
+      console.log('❌ Middleware - Page route with invalid token, redirecting to login')
+    }
+    return NextResponse.redirect(new URL('/login', request.url))
   }
-
-  if (isDevelopment) {
-    console.log('✅ Middleware - Token found, allowing access')
-  }
-
-  return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
     '/((?!_next/static|_next/image|favicon.ico|public).*)',
   ],
 }
