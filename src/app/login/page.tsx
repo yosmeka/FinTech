@@ -150,6 +150,7 @@ export default function LoginPage() {
                 placeholder="admin@fintech.com"
                 className="w-full pl-10 pr-4 py-3 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                 required
+                suppressHydrationWarning
               />
             </div>
             {errors.email && (
@@ -181,6 +182,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-3 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                 required
+                suppressHydrationWarning
               />
             </div>
             {errors.password && (
@@ -207,6 +209,7 @@ export default function LoginPage() {
               type="submit"
               disabled={loading}
               className="w-full flex justify-center items-center py-3 px-4 text-sm font-semibold rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              suppressHydrationWarning
             >
               {loading ? (
                 <div className="flex items-center">

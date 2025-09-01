@@ -154,7 +154,7 @@ export default async function Dashboard() {
           </div>
 
           {/* System Health */}
-          <div className="card-professional">
+          {/* <div className="card-professional">
             <div className="card-content-professional">
               <div className="flex items-center justify-between">
                 <div>
@@ -171,7 +171,7 @@ export default async function Dashboard() {
                 <span className="text-green-600 font-medium">All Systems Operational</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Quick Actions */}
