@@ -8,7 +8,7 @@ const COOKIE_NAME = 'fintech-auth-token'
 
 export interface AuthUser {
   id: number
-  email: string
+  username: string
   name: string
   role: 'ADMIN'
   isActive: boolean
@@ -16,12 +16,12 @@ export interface AuthUser {
 
 export interface TokenPayload {
   userId: number
-  email: string
+  username: string
   role: 'ADMIN'
 }
 
 export interface CreateUserData {
-  email: string
+  username: string
   name: string
   password: string
   role?: 'ADMIN'
@@ -29,7 +29,7 @@ export interface CreateUserData {
 
 export interface UpdateUserData {
   id: number
-  email?: string
+  username?: string
   name?: string
   password?: string
   role?: 'ADMIN'
@@ -94,7 +94,7 @@ export function verifyTokenEdge(token: string): TokenPayload | null {
     }
 
     // Validate required fields
-    if (!payload.userId || !payload.email || !payload.role) {
+    if (!payload.userId || !payload.username || !payload.role) {
       if (isDevelopment) console.log('🔐 Edge verification - Missing required payload fields')
       return null
     }
@@ -122,12 +122,12 @@ export function verifyTokenEdge(token: string): TokenPayload | null {
     }
 
     if (isDevelopment) {
-      console.log('🔐 Edge verification - Token valid for user:', payload.email)
+      console.log('🔐 Edge verification - Token valid for user:', payload.username)
     }
 
     return {
       userId: payload.userId,
-      email: payload.email,
+      username: payload.username,
       role: payload.role,
     } as TokenPayload
   } catch (error) {
@@ -158,7 +158,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       where: { id: payload.userId },
       select: {
         id: true,
-        email: true,
+        username: true,
         name: true,
         role: true,
         isActive: true,
@@ -194,10 +194,10 @@ export async function clearAuthCookie() {
 }
 
 // Authenticate user
-export async function authenticateUser(email: string, password: string): Promise<AuthUser | null> {
+export async function authenticateUser(username: string, password: string): Promise<AuthUser | null> {
   try {
     const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
+      where: { username: username.toLowerCase() },
     })
     console.log('User found:', user)
 
@@ -213,7 +213,7 @@ export async function authenticateUser(email: string, password: string): Promise
 
     return {
       id: user.id,
-      email: user.email,
+      username: user.username,
       name: user.name,
       role: user.role as 'ADMIN',
       isActive: user.isActive,
@@ -234,7 +234,7 @@ export async function createInitialAdmin() {
       
       await prisma.user.create({
         data: {
-          email: 'admin@fintech.com',
+          username: 'admin',
           name: 'System Administrator',
           password: hashedPassword,
           role: 'ADMIN',
@@ -242,7 +242,7 @@ export async function createInitialAdmin() {
         },
       })
       
-      console.log('Initial admin user created: admin@fintech.com / admin123')
+      console.log('Initial admin user created: admin / admin123')
     }
   } catch (error) {
     console.error('Error creating initial admin:', error)

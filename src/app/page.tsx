@@ -11,7 +11,7 @@ export default function HomePage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   })
 
@@ -133,8 +133,8 @@ export default function HomePage() {
         {/* Login Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-semibold text-gray-700">
-              Email Address
+            <label htmlFor="username" className="text-sm font-semibold text-gray-700">
+              Username
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -143,18 +143,18 @@ export default function HomePage() {
                 </svg>
               </div>
               <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                autoComplete="email"
-                placeholder="admin@fintech.com"
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) => handleChange('username', e.target.value)}
+                autoComplete="username"
+                placeholder="admin"
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 placeholder-gray-500"
                 required
               />
             </div>
-            {errors.email && (
-              <p className="text-sm text-red-600 font-medium">{errors.email}</p>
+            {errors.username && (
+              <p className="text-sm text-red-600 font-medium">{errors.username}</p>
             )}
           </div>
 

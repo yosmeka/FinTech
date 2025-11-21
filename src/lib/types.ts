@@ -28,7 +28,7 @@ export interface UserClient extends Omit<User, 'createdAt' | 'updatedAt' | 'pass
   creator?: {
     id: number
     name: string
-    email: string
+    username: string
   }
 }
 
@@ -46,7 +46,7 @@ export interface CreateFintechCompanyData {
 }
 
 export interface CreateUserData {
-  email: string
+  username: string
   name: string
   password: string
   role: UserRole

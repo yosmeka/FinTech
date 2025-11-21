@@ -17,7 +17,7 @@ export async function GET() {
     const users = await prisma.user.findMany({
       select: {
         id: true,
-        email: true,
+        username: true,
         name: true,
         role: true,
         isActive: true,
@@ -27,7 +27,7 @@ export async function GET() {
           select: {
             id: true,
             name: true,
-            email: true,
+            username: true,
           },
         },
       },
@@ -60,21 +60,21 @@ export async function POST(request: NextRequest) {
     const body: CreateUserData = await request.json()
     
     // Validate required fields
-    if (!body.email || !body.name || !body.password) {
+    if (!body.username || !body.name || !body.password) {
       return NextResponse.json(
-        { error: 'Email, name, and password are required' },
+        { error: 'Username, name, and password are required' },
         { status: 400 }
       )
     }
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email: body.email.toLowerCase() },
+      where: { username: body.username.toLowerCase() },
     })
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User with this email already exists' },
+        { error: 'User with this username already exists' },
         { status: 409 }
       )
     }
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     // Create user
     const user = await prisma.user.create({
       data: {
-        email: body.email.toLowerCase(),
+        username: body.username.toLowerCase(),
         name: body.name,
         password: hashedPassword,
         role: body.role || 'ADMIN',
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       },
       select: {
         id: true,
-        email: true,
+        username: true,
         name: true,
         role: true,
         isActive: true,
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
           select: {
             id: true,
             name: true,
-            email: true,
+            username: true,
           },
         },
       },

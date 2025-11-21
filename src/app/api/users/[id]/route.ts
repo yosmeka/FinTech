@@ -24,7 +24,7 @@ export async function GET(
       where: { id },
       select: {
         id: true,
-        email: true,
+        username: true,
         name: true,
         role: true,
         isActive: true,
@@ -34,7 +34,7 @@ export async function GET(
           select: {
             id: true,
             name: true,
-            email: true,
+            username: true,
           },
         },
       },
@@ -82,9 +82,9 @@ export async function PUT(
       isActive: body.isActive,
     }
 
-    // Only update email if provided and different
-    if (body.email) {
-      updateData.email = body.email.toLowerCase()
+    // Only update username if provided and different
+    if (body.username) {
+      updateData.username = body.username.toLowerCase()
     }
 
     // Only update password if provided
@@ -97,7 +97,7 @@ export async function PUT(
       data: updateData,
       select: {
         id: true,
-        email: true,
+        username: true,
         name: true,
         role: true,
         isActive: true,
@@ -107,7 +107,7 @@ export async function PUT(
           select: {
             id: true,
             name: true,
-            email: true,
+            username: true,
           },
         },
       },

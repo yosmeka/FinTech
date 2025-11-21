@@ -3,11 +3,17 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
-import { FintechCompanyWithProductsClient, FINTECH_STATUS_LABELS } from '@/lib/types'
+import { FintechCompanyWithProductsClient, FINTECH_STATUS_LABELS, FintechStatus } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 
 interface CompaniesTableProps {
   companies: FintechCompanyWithProductsClient[]
+}
+
+const STATUS_BADGE_VARIANTS: Record<FintechStatus, 'success' | 'info' | 'error'> = {
+  NEW: 'info',
+  ENGAGED: 'success',
+  RETIRED: 'error',
 }
 
 export function CompaniesTable({ companies }: CompaniesTableProps) {
@@ -67,11 +73,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                 </div>
               </TableCell>
               <TableCell>
-                <span className={`table-badge ${
-                  company.status === 'ACTIVE' ? 'success' :
-                  company.status === 'INACTIVE' ? 'error' :
-                  company.status === 'PENDING' ? 'warning' : 'info'
-                }`}>
+                <span className={`table-badge ${STATUS_BADGE_VARIANTS[company.status]}`}>
                   {FINTECH_STATUS_LABELS[company.status]}
                 </span>
               </TableCell>

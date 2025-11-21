@@ -5,7 +5,7 @@ async function getUsers() {
   return await prisma.user.findMany({
     select: {
       id: true,
-      email: true,
+      username: true,
       name: true,
       role: true,
       isActive: true,
@@ -16,7 +16,7 @@ async function getUsers() {
         select: {
           id: true,
           name: true,
-          email: true,
+          username: true,
         },
       },
     },

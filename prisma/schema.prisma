@@ -4,13 +4,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
 
 model User {
   id               Int              @id @default(autoincrement())
-  email            String           @unique
+  username            String           @unique
   name             String
   password         String
   role             UserRole         @default(ADMIN)
@@ -25,7 +27,7 @@ model User {
   creator          User?            @relation("UserCreatedBy", fields: [createdBy], references: [id])
   createdUsers     User[]           @relation("UserCreatedBy")
 
-  @@index([email])
+  @@index([username])
 }
 
 model FintechCompany {

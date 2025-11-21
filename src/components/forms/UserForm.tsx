@@ -8,7 +8,7 @@ import { Select } from '@/components/ui/Select'
 
 interface User {
   id: number
-  email: string
+  username: string
   name: string
   role: 'ADMIN'
   isActive: boolean
@@ -17,7 +17,7 @@ interface User {
   creator?: {
     id: number
     name: string
-    email: string
+    username: string
   }
 }
 
@@ -32,7 +32,7 @@ export function UserForm({ user, mode }: UserFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   
   const [formData, setFormData] = useState({
-    email: user?.email || '',
+    username: user?.username || '',
     name: user?.name || '',
     password: '',
     confirmPassword: '',
@@ -43,10 +43,10 @@ export function UserForm({ user, mode }: UserFormProps) {
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid'
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required'
+    } else if (formData.username.trim().length < 3) {
+      newErrors.username = 'Username must be at least 3 characters'
     }
 
     if (!formData.name.trim()) {
@@ -88,7 +88,7 @@ export function UserForm({ user, mode }: UserFormProps) {
       const method = mode === 'create' ? 'POST' : 'PUT'
       
       const submitData: any = {
-        email: formData.email,
+        username: formData.username,
         name: formData.name,
         role: formData.role,
         isActive: formData.isActive,
@@ -147,12 +147,12 @@ export function UserForm({ user, mode }: UserFormProps) {
             />
 
             <Input
-              label="Email Address"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleChange('email', e.target.value)}
-              error={errors.email}
-              placeholder="admin@fintech.com"
+              label="Username"
+              type="text"
+              value={formData.username}
+              onChange={(e) => handleChange('username', e.target.value)}
+              error={errors.username}
+              placeholder="admin"
               required
             />
 

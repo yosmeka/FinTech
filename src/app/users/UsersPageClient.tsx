@@ -29,7 +29,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
     if (searchQuery) {
       filtered = filtered.filter(user =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.creator?.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
@@ -52,9 +52,9 @@ export function UsersPageClient({ users }: UsersPageProps) {
           aValue = a.name.toLowerCase()
           bValue = b.name.toLowerCase()
           break
-        case 'email':
-          aValue = a.email.toLowerCase()
-          bValue = b.email.toLowerCase()
+        case 'username':
+          aValue = a.username.toLowerCase()
+          bValue = b.username.toLowerCase()
           break
         case 'status':
           aValue = a.isActive ? 'active' : 'inactive'
@@ -87,7 +87,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
         <div className="card-status-container">
           <div>
             <h3 className="card-title-professional">{user.name}</h3>
-            <p className="card-subtitle-professional">{user.email}</p>
+            <p className="card-subtitle-professional">{user.username}</p>
           </div>
           <div className="flex flex-col gap-2">
             <span className="card-status-badge info">
@@ -198,7 +198,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
                       {user.name}
                     </Link>
                     <p className="text-sm text-gray-500 mt-1">
-                      {user.email}
+                      {user.username}
                     </p>
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
       {/* Search and Filters */}
       <div className="mb-6 space-y-4">
         <SearchBar
-          placeholder="Search users by name, email, or creator..."
+          placeholder="Search users by name, username, or creator..."
           onSearch={setSearchQuery}
         />
         
@@ -286,8 +286,8 @@ export function UsersPageClient({ users }: UsersPageProps) {
             sortOptions={[
               { value: 'name-asc', label: 'Name (A-Z)' },
               { value: 'name-desc', label: 'Name (Z-A)' },
-              { value: 'email-asc', label: 'Email (A-Z)' },
-              { value: 'email-desc', label: 'Email (Z-A)' },
+              { value: 'username-asc', label: 'Username (A-Z)' },
+              { value: 'username-desc', label: 'Username (Z-A)' },
               { value: 'status-asc', label: 'Status (Active First)' },
               { value: 'status-desc', label: 'Status (Inactive First)' },
               { value: 'createdAt-desc', label: 'Newest First' },

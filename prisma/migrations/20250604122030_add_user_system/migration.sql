@@ -12,7 +12,7 @@ ADD COLUMN     "updatedById" INTEGER;
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'ADMIN',
@@ -25,10 +25,10 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("username");
 
 -- CreateIndex
-CREATE INDEX "User_email_idx" ON "User"("email");
+CREATE INDEX "User_email_idx" ON "User"("username");
 
 -- CreateIndex
 CREATE INDEX "FintechCompany_createdById_idx" ON "FintechCompany"("createdById");

@@ -72,7 +72,7 @@ Follow the interactive deployment wizard: `npm run deploy`
 
 5. **Open Application**
    Visit [http://localhost:3000](http://localhost:3000)
-   Login with: `admin@fintech.com` / `admin123`
+   Login with: `admin` / `admin123`
 
 ## 📋 Environment Variables
 
@@ -107,7 +107,7 @@ NODE_ENV="production"
 ## 🔐 Default Credentials
 
 After deployment and seeding:
-- **Email**: admin@fintech.com
+- **Username**: admin
 - **Password**: admin123
 
 ⚠️ **Important**: Change the default password immediately after first login!

@@ -32,7 +32,7 @@ function verifyTokenEdge(token: string): any {
     }
 
     // Validate required fields
-    if (!payload.userId || !payload.email || !payload.role) {
+    if (!payload.userId || !payload.username || !payload.role) {
       return null
     }
 

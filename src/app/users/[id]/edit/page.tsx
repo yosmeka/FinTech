@@ -7,7 +7,7 @@ async function getUser(id: number) {
     where: { id },
     select: {
       id: true,
-      email: true,
+      username: true,
       name: true,
       role: true,
       isActive: true,
@@ -17,7 +17,7 @@ async function getUser(id: number) {
         select: {
           id: true,
           name: true,
-          email: true,
+          username: true,
         },
       },
     },

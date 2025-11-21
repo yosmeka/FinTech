@@ -49,7 +49,7 @@ export default function DebugAuthPage() {
       const data = await response.json()
       
       if (response.ok) {
-        toast.success(`Authenticated as: ${data.user.email}`)
+        toast.success(`Authenticated as: ${data.user.username}`)
       } else {
         toast.error('Not authenticated')
       }

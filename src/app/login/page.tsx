@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   })
 
@@ -132,8 +132,8 @@ export default function LoginPage() {
         {/* Login Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-semibold text-gray-700">
-              Email Address
+            <label htmlFor="username" className="text-sm font-semibold text-gray-700">
+              Username
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -142,23 +142,23 @@ export default function LoginPage() {
                 </svg>
               </div>
               <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                autoComplete="email"
-                placeholder="admin@fintech.com"
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) => handleChange('username', e.target.value)}
+                autoComplete="username"
+                placeholder="admin"
                 className="w-full pl-10 pr-4 py-3 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                 required
                 suppressHydrationWarning
               />
             </div>
-            {errors.email && (
+            {errors.username && (
               <p className="text-sm text-red-600 mt-1 flex items-center">
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                {errors.email}
+                {errors.username}
               </p>
             )}
           </div>

@@ -16,14 +16,14 @@ async function main() {
   // Create a single admin user
   const admin = await prisma.user.create({
     data: {
-      email: 'admin@fintech.com',
+      username: 'admin',
       name: 'Admin',
       password: passwordHash,
       role: 'ADMIN',
       isActive: true,
     },
   })
-  console.log(`✅ Created admin user: ${admin.email}`)
+  console.log(`✅ Created admin user: ${admin.username}`)
 
   // Create a single company
   const company = await prisma.fintechCompany.create({

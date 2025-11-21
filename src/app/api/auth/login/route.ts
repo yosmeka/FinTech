@@ -4,16 +4,16 @@ import { authenticateUser, generateToken } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json()
+    const { username, password } = await request.json()
 
-    if (!email || !password) {
+    if (!username || !password) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: 'Username and password are required' },
         { status: 400 }
       )
     }
 
-    const user = await authenticateUser(email, password)
+    const user = await authenticateUser(username, password)
     
     if (!user) {
       return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     const token = generateToken({
       userId: user.id,
-      email: user.email,
+      username: user.username,
       role: user.role,
     })
 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   token, // <-- add this line
   user: {
     id: user.id,
-    email: user.email,
+    username: user.username,
     name: user.name,
     role: user.role,
   },
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     response.headers.set('Set-Cookie', cookieValue)
 
-    console.log('Login successful, cookie set for user:', user.email)
+    console.log('Login successful, cookie set for user:', user.username)
     console.log('Cookie value:', cookieValue)
 
     return response

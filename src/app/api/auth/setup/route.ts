@@ -8,7 +8,7 @@ export async function POST() {
     return NextResponse.json({
       message: 'Initial admin user setup completed',
       credentials: {
-        email: 'admin@fintech.com',
+        username: 'admin',
         password: 'admin123'
       }
     })

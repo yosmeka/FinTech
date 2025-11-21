@@ -10,7 +10,7 @@ async function getUser(id: number) {
     where: { id },
     select: {
       id: true,
-      email: true,
+      username: true,
       name: true,
       role: true,
       isActive: true,
@@ -20,7 +20,7 @@ async function getUser(id: number) {
         select: {
           id: true,
           name: true,
-          email: true,
+          username: true,
         },
       },
       companiesCreated: {
@@ -56,7 +56,7 @@ async function getUser(id: number) {
         select: {
           id: true,
           name: true,
-          email: true,
+          username: true,
           isActive: true,
           createdAt: true,
         },
@@ -86,7 +86,7 @@ export default async function UserDetailPage({
       <div className="flex justify-between items-start mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
-          <p className="mt-2 text-gray-600">{user.email}</p>
+          <p className="mt-2 text-gray-600">{user.username}</p>
         </div>
         <div className="flex gap-2">
           <Link href={`/users/${user.id}/edit`}>
@@ -151,7 +151,7 @@ export default async function UserDetailPage({
                     <div key={createdUser.id} className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{createdUser.name}</p>
-                        <p className="text-sm text-gray-600">{createdUser.email}</p>
+                        <p className="text-sm text-gray-600">{createdUser.username}</p>
                       </div>
                       <Badge variant={createdUser.isActive ? "default" : "danger"}>
                         {createdUser.isActive ? 'Active' : 'Inactive'}
