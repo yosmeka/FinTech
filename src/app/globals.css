@@ -95,9 +95,9 @@ body {
 .card-professional {
   background: #ffffff;
   border: 1px solid #e4e4e7;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -116,7 +116,8 @@ body {
 
 .card-professional:hover {
   border-color: #d4d4d8;
-  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+  transform: translateY(-2px);
 }
 
 .card-professional:hover::before {
@@ -125,7 +126,7 @@ body {
 
 /* Card Header Styles */
 .card-header-professional {
-  padding: 20px 20px 12px 20px;
+  padding: 24px 24px 16px 24px;
   position: relative;
 }
 
@@ -174,7 +175,7 @@ body {
 
 /* Card Content Styles */
 .card-content-professional {
-  padding: 0 20px 12px 20px;
+  padding: 0 24px 20px 24px;
 }
 
 .card-info-grid {
@@ -659,7 +660,7 @@ select.professional-select {
 }
 
 .compact-card .card-content-professional {
-  padding: 0 14px 10px 14px;
+  padding: 0.75rem 1rem 0.9rem 1rem;
 }
 
 .compact-card .stats-header {
@@ -674,14 +675,15 @@ select.professional-select {
 }
 
 .compact-card .stats-value {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .compact-card .stats-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   border: 1px solid #ececf1;
 }
 
@@ -732,7 +734,7 @@ select.professional-select {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
 }
 
 .dashboard-stats-card .stats-content {
@@ -788,7 +790,7 @@ select.professional-select {
   justify-content: center;
   align-items: flex-start;
   text-align: left;
-  padding: 0.9rem 0.85rem;
+  padding: 0.65rem 0.85rem;
 }
 
 .quick-action-card {
@@ -821,7 +823,7 @@ select.professional-select {
 }
 
 .dashboard-quick-actions .quick-action-description {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #6b7280;
   line-height: 1.3;
 }

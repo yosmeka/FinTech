@@ -89,14 +89,13 @@ export default function HomePage() {
           <h1 className="text-4xl lg:text-5xl font-bold text-black mb-4">
             Fintech Management
           </h1>
-          <h2 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-6">
+          {/* <h2 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-6">
             Professional Dashboard System
-          </h2>
+          </h2> */}
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            Streamline your fintech operations with our comprehensive management platform.
-            Track companies, manage products, and oversee user accounts with enterprise-grade security.
+            Track companies, manage products
           </p>
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-red-600 rounded-full"></div>
               <span className="text-gray-700 font-medium">Secure Authentication</span>
@@ -109,7 +108,7 @@ export default function HomePage() {
               <div className="w-2 h-2 bg-red-600 rounded-full"></div>
               <span className="text-gray-700 font-medium">Comprehensive Reporting</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

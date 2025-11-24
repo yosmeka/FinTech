@@ -67,14 +67,14 @@ export default async function Dashboard() {
       {/* Content Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Total Companies */}
           <div className="card-professional dashboard-stats-card compact-card">
             <div className="card-content-professional">
               <div className="stats-header">
                 <div className="stats-content">
                   <p className="stats-label tracking-[0.08em] text-xs uppercase text-gray-400">Total Companies</p>
-                  <p className="stats-value text-[1.25rem] font-semibold">{stats.totalCompanies}</p>
+                  <p className="stats-value font-semibold">{stats.totalCompanies}</p>
                 </div>
                 <div className="stats-icon w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
                   <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@ export default async function Dashboard() {
               <div className="stats-header">
                 <div className="stats-content">
                   <p className="stats-label tracking-[0.08em] text-xs uppercase text-gray-400">Total Products</p>
-                  <p className="stats-value text-[1.25rem] font-semibold">{stats.totalProducts}</p>
+                  <p className="stats-value font-semibold">{stats.totalProducts}</p>
                 </div>
                 <div className="stats-icon w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                   <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +122,7 @@ export default async function Dashboard() {
               <div className="stats-header">
                 <div className="stats-content">
                   <p className="stats-label tracking-[0.08em] text-xs uppercase text-gray-400">Total Users</p>
-                  <p className="stats-value text-[1.25rem] font-semibold">{stats.totalUsers}</p>
+                  <p className="stats-value font-semibold">{stats.totalUsers}</p>
                 </div>
                 <div className="stats-icon w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
                   <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +140,7 @@ export default async function Dashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 dashboard-quick-actions">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 dashboard-quick-actions">
           <Link href="/companies/new" className="card-professional quick-action-card transition-shadow">
             <div className="card-content-professional">
               <div className="quick-action-icon bg-blue-100">
@@ -179,7 +179,7 @@ export default async function Dashboard() {
         </div>
 
         {/* Recent Activity Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Companies */}
           <div className="card-professional">
             <div className="card-header-professional">
@@ -232,11 +232,10 @@ export default async function Dashboard() {
                           </p>
                         </div>
                       </div>
-                      <span className={`table-badge ${
-                        company.status === 'ENGAGED' ? 'success' :
-                        company.status === 'RETIRED' ? 'error' :
-                        company.status === 'NEW' ? 'info' : 'info'
-                      }`}>
+                      <span className={`table-badge ${company.status === 'ENGAGED' ? 'success' :
+                          company.status === 'RETIRED' ? 'error' :
+                            company.status === 'NEW' ? 'info' : 'info'
+                        }`}>
                         {FINTECH_STATUS_LABELS[company.status]}
                       </span>
                     </div>
@@ -306,10 +305,9 @@ export default async function Dashboard() {
                           </p>
                         </div>
                       </div>
-                      <span className={`table-badge ${
-                        product.status === 'DONE' ? 'success' :
-                        product.status === 'INPROGRESS' ? 'warning' : 'info'
-                      }`}>
+                      <span className={`table-badge ${product.status === 'DONE' ? 'success' :
+                          product.status === 'INPROGRESS' ? 'warning' : 'info'
+                        }`}>
                         {PRODUCT_STATUS_LABELS[product.status]}
                       </span>
                     </div>

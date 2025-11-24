@@ -38,8 +38,8 @@ export function ProductsTable({ products }: ProductsTableProps) {
             <TableHead>Company</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="hidden lg:table-cell">Description</TableHead>
-            <TableHead className="hidden xl:table-cell">Strengths</TableHead>
-            <TableHead className="hidden xl:table-cell">Weaknesses</TableHead>
+            {/* <TableHead className="hidden xl:table-cell">Strengths</TableHead>
+            <TableHead className="hidden xl:table-cell">Weaknesses</TableHead> */}
             <TableHead className="hidden sm:table-cell">Created</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -61,9 +61,9 @@ export function ProductsTable({ products }: ProductsTableProps) {
                     >
                       {product.productName}
                     </Link>
-                    <p className="text-sm text-gray-500 mt-1">
+                    {/* <p className="text-sm text-gray-500 mt-1">
                       ID: {product.id}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </TableCell>
@@ -90,20 +90,20 @@ export function ProductsTable({ products }: ProductsTableProps) {
                   </p>
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-cell">
+              {/* <TableCell className="hidden xl:table-cell">
                 <div className="max-w-xs">
                   <p className="text-sm text-green-700 line-clamp-2" title={product.strength}>
                     {product.strength}
                   </p>
                 </div>
-              </TableCell>
-              <TableCell className="hidden xl:table-cell">
+              </TableCell> */}
+              {/* <TableCell className="hidden xl:table-cell">
                 <div className="max-w-xs">
                   <p className="text-sm text-red-700 line-clamp-2" title={product.weakness}>
                     {product.weakness}
                   </p>
                 </div>
-              </TableCell>
+              </TableCell> */}
               <TableCell className="hidden sm:table-cell">
                 <div className="text-sm">
                   <p className="text-gray-900">{formatDate(product.createdAt)}</p>

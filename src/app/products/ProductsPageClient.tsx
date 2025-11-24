@@ -15,7 +15,7 @@ interface ProductsPageProps {
 }
 
 export function ProductsPageClient({ products }: ProductsPageProps) {
-  const [viewMode, setViewMode] = useState<ViewMode>('card')
+  const [viewMode, setViewMode] = useState<ViewMode>('table')
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [companyFilter, setCompanyFilter] = useState('')

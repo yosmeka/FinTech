@@ -15,7 +15,7 @@ interface CompaniesPageProps {
 }
 
 export function CompaniesPageClient({ companies }: CompaniesPageProps) {
-  const [viewMode, setViewMode] = useState<ViewMode>('card')
+  const [viewMode, setViewMode] = useState<ViewMode>('table')
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [sortBy, setSortBy] = useState('createdAt-desc')
