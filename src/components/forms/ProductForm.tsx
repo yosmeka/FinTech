@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { withBase } from '@/lib/path'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
@@ -39,7 +40,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch('/api/companies')
+        const response = await fetch(withBase('/api/companies'), { credentials: 'include' })
         if (response.ok) {
           const data = await response.json()
           setCompanies(data)
@@ -93,17 +94,18 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     setLoading(true)
     
     try {
-      const url = mode === 'create' 
-        ? '/api/products' 
-        : `/api/products/${product!.id}`
-      
+      const url = mode === 'create'
+        ? withBase('/api/products')
+        : withBase(`/api/products/${product!.id}`)
+
       const method = mode === 'create' ? 'POST' : 'PUT'
-      
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       })
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { cn } from '@/lib/utils'
+import { publicAsset, withBase } from '@/lib/path'
 import Image from 'next/image'
 
 import { Button } from './ui/Button'
@@ -51,7 +52,7 @@ export function Navigation() {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await fetch('/api/auth/me')
+      const response = await fetch(withBase('/api/auth/me'), { credentials: 'include' })
       if (response.ok) {
         const data = await response.json()
         setUser(data.user)
@@ -66,7 +67,7 @@ export function Navigation() {
     const logoutToast = toast.loading('Signing out...')
 
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
+      await fetch(withBase('/api/auth/logout'), { method: 'POST', credentials: 'include' })
       setUser(null)
       toast.success('Signed out successfully', { id: logoutToast })
       router.push('/')
@@ -88,7 +89,7 @@ export function Navigation() {
             <div className="flex-shrink-0 flex items-center">
               <div className="flex items-center space-x-2">
                 <Image
-                  src="/zemen-logo.png"
+                  src={publicAsset('/zemen-logo.png')}
                   alt="Zemen Bank Logo"
                   width={28}
                   height={28}

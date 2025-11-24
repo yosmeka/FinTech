@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 
 import { useState } from 'react'
+import { withBase } from '@/lib/path'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
@@ -14,8 +15,9 @@ export default function DebugAuthPage() {
 
     try {
       // Clear cookies via API
-      await fetch('/api/auth/logout', {
+      await fetch(withBase('/api/auth/logout'), {
         method: 'POST',
+        credentials: 'include',
       })
 
       // Clear any localStorage data
@@ -45,7 +47,7 @@ export default function DebugAuthPage() {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('/api/auth/me')
+      const response = await fetch(withBase('/api/auth/me'), { credentials: 'include' })
       const data = await response.json()
       
       if (response.ok) {

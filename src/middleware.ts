@@ -51,7 +51,12 @@ function verifyTokenEdge(token: string): any {
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const basePath = request.nextUrl.basePath || ''
+  const rawPathname = request.nextUrl.pathname
+  const pathname = basePath && rawPathname.startsWith(basePath)
+    ? rawPathname.slice(basePath.length) || '/'
+    : rawPathname
+
   const isApiRoute = pathname.startsWith('/api')
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
   const isDev = process.env.NODE_ENV === 'development'
@@ -86,7 +91,7 @@ export async function middleware(request: NextRequest) {
           console.log('🔄 Middleware - Root path, token verified:', payload)
           console.log('🔄 Middleware - Root path, redirecting to dashboard')
         }
-        return NextResponse.redirect(new URL('/dashboard', request.url))
+        return NextResponse.redirect(new URL(`${basePath || ''}/dashboard`, request.url))
       } else {
         if (isDev) {
           console.log('❌ Middleware - Invalid token on root path')
@@ -96,7 +101,7 @@ export async function middleware(request: NextRequest) {
     if (isDev) {
       console.log('🔄 Middleware - Root path, redirecting to login')
     }
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL(`${basePath || ''}/login`, request.url))
   }
 
   // 🔒 If it's an API route and no token, return JSON 401
@@ -133,7 +138,7 @@ export async function middleware(request: NextRequest) {
     if (isDev) {
       console.log('❌ Middleware - Page route without token, redirecting to login')
     }
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL(`${basePath || ''}/login`, request.url))
   }
 
   const payload = verifyTokenEdge(token)
@@ -146,7 +151,7 @@ export async function middleware(request: NextRequest) {
     if (isDev) {
       console.log('❌ Middleware - Page route with invalid token, redirecting to login')
     }
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL(`${basePath || ''}/login`, request.url))
   }
 }
 

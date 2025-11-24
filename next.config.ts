@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   // Enable standalone output for Docker deployments
   output: 'standalone',
 
+  // Serve the app under /Fin_Tech
+  basePath: '/Fin_Tech',
+  assetPrefix: '/Fin_Tech',
+
   // Disable image optimization to fix local development issues
   images: {
     unoptimized: true,
@@ -16,7 +20,8 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // Scope headers to the basePath
+        source: '/Fin_Tech/(.*)',
         headers: [
           {
             key: 'X-Frame-Options',
@@ -38,6 +43,7 @@ const nextConfig: NextConfig = {
   // Environment variables to expose to the client
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
+    NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH || '/Fin_Tech',
   },
 
   // Experimental features

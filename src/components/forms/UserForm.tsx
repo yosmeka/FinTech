@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { withBase } from '@/lib/path'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Input } from '@/components/ui/Input'
@@ -81,9 +82,9 @@ export function UserForm({ user, mode }: UserFormProps) {
     const saveToast = toast.loading(mode === 'create' ? 'Creating user...' : 'Updating user...')
     
     try {
-      const url = mode === 'create' 
-        ? '/api/users' 
-        : `/api/users/${user!.id}`
+      const url = mode === 'create'
+        ? withBase('/api/users')
+        : withBase(`/api/users/${user!.id}`)
       
       const method = mode === 'create' ? 'POST' : 'PUT'
       
@@ -104,6 +105,7 @@ export function UserForm({ user, mode }: UserFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(submitData),
       })
 

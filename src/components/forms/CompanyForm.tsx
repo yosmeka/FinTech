@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { withBase } from '@/lib/path'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { FintechStatus, FINTECH_STATUS_LABELS, type FintechCompany } from '@/lib/types'
@@ -63,8 +64,8 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
 
     try {
       const url = mode === 'create'
-        ? '/api/companies'
-        : `/api/companies/${company!.id}`
+        ? withBase('/api/companies')
+        : withBase(`/api/companies/${company!.id}`)
 
       const method = mode === 'create' ? 'POST' : 'PUT'
 
@@ -73,6 +74,7 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       })
 

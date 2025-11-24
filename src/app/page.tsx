@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { withBase, publicAsset } from '@/lib/path'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 
@@ -23,11 +24,12 @@ export default function HomePage() {
     const loadingToast = toast.loading('Signing in...')
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(withBase('/api/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       })
 
@@ -49,7 +51,7 @@ export default function HomePage() {
 
         // Method 2: Force page reload as fallback
         setTimeout(() => {
-          window.location.href = '/dashboard'
+          window.location.href = withBase('/dashboard')
         }, 2000)
       }, 1500)
 
@@ -77,7 +79,7 @@ export default function HomePage() {
         <div className="max-w-lg">
           <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-8 p-2">
             <Image
-              src="/zemen-logo.png"
+              src={publicAsset('/zemen-logo.png')}
               alt="Zemen Bank Logo"
               width={48}
               height={48}
@@ -117,7 +119,7 @@ export default function HomePage() {
         <div className="flex flex-col items-center justify-center mb-8">
           <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 p-2 border border-red-100">
             <Image
-              src="/zemen-logo.png"
+              src={publicAsset('/zemen-logo.png')}
               alt="Zemen Bank Logo"
               width={48}
               height={48}
