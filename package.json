@@ -19,6 +19,9 @@
     "docker:compose": "docker-compose up --build",
     "deploy:supabase": "node deploy-supabase.js"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^6.9.0",
     "@types/bcryptjs": "^3.0.0",

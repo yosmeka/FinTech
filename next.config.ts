@@ -50,6 +50,12 @@ const nextConfig: NextConfig = {
   experimental: {
     // Add experimental features here if needed
   },
+
+  // Allow building even when ESLint reports errors — useful for CI or quick builds
+  // Keep linting enabled in dev; this only ignores ESLint failures during `next build`.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

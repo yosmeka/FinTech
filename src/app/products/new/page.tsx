@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import React, { Suspense } from 'react'
 import { ProductForm } from '@/components/forms/ProductForm'
 
 export default function NewProductPage() {
@@ -57,7 +58,9 @@ export default function NewProductPage() {
           </div>
 
           <div className="card-content-professional">
-            <ProductForm mode="create" />
+            <Suspense fallback={<div className="text-center py-8">Loading form...</div>}>
+              <ProductForm mode="create" />
+            </Suspense>
           </div>
         </div>
       </div>

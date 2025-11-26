@@ -1,0 +1,13 @@
+# Ignore build folders and dependencies
+node_modules/
+.next/
+dist/
+
+# Ignore generated Prisma client and runtime (wasm) files
+src/generated/
+
+# Ignore compiled/generated Prisma JS helpers
+src/generated/prisma/
+
+# Optional: ignore other generated artifacts
+src/generated/**
