@@ -5,6 +5,7 @@ import { withBase } from '@/lib/path'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
+import { Button } from '@/components/ui/Button'
 import { ProductStatus, PRODUCT_STATUS_LABELS, type Product, type FintechCompany } from '@/lib/types'
 
 interface ProductWithCompany extends Product {
@@ -142,7 +143,9 @@ export function ProductForm({ product, mode }: ProductFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2">
           <Input
             label="Product Name"
             value={formData.productName}
@@ -151,7 +154,9 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             placeholder="Enter product name"
             required
           />
+        </div>
 
+        <div className="md:col-span-2">
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">
               Product Description
@@ -159,77 +164,77 @@ export function ProductForm({ product, mode }: ProductFormProps) {
             <textarea
               value={formData.productDescription}
               onChange={(e) => handleChange('productDescription', e.target.value)}
-              className="flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex min-h-[120px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
               placeholder="Enter product description"
-              rows={4}
               required
             />
             {errors.productDescription && (
               <p className="text-sm text-red-600">{errors.productDescription}</p>
             )}
           </div>
+        </div>
 
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Strengths
-            </label>
-            <textarea
-              value={formData.strength}
-              onChange={(e) => handleChange('strength', e.target.value)}
-              className="flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Enter product strengths"
-              rows={3}
-              required
-            />
-            {errors.strength && (
-              <p className="text-sm text-red-600">{errors.strength}</p>
-            )}
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Weaknesses
-            </label>
-            <textarea
-              value={formData.weakness}
-              onChange={(e) => handleChange('weakness', e.target.value)}
-              className="flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Enter product weaknesses"
-              rows={3}
-              required
-            />
-            {errors.weakness && (
-              <p className="text-sm text-red-600">{errors.weakness}</p>
-            )}
-          </div>
-
-          <Select
-            label="Status"
-            value={formData.status}
-            onChange={(value) => handleChange('status', value as ProductStatus)}
-            options={statusOptions}
-            error={errors.status}
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Strengths
+          </label>
+          <textarea
+            value={formData.strength}
+            onChange={(e) => handleChange('strength', e.target.value)}
+            className="flex min-h-[100px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+            placeholder="Enter product strengths"
             required
           />
-
-          <Select
-            label="Company"
-            value={formData.fintechCompanyId.toString()}
-            onChange={(value) => handleChange('fintechCompanyId', parseInt(value))}
-            options={companyOptions}
-            error={errors.fintechCompanyId}
-            required
-          />
-
-          {errors.submit && (
-            <div className="text-red-600 text-sm">{errors.submit}</div>
+          {errors.strength && (
+            <p className="text-sm text-red-600">{errors.strength}</p>
           )}
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Weaknesses
+          </label>
+          <textarea
+            value={formData.weakness}
+            onChange={(e) => handleChange('weakness', e.target.value)}
+            className="flex min-h-[100px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+            placeholder="Enter product weaknesses"
+            required
+          />
+          {errors.weakness && (
+            <p className="text-sm text-red-600">{errors.weakness}</p>
+          )}
+        </div>
+
+        <Select
+          label="Status"
+          value={formData.status}
+          onChange={(value) => handleChange('status', value as ProductStatus)}
+          options={statusOptions}
+          error={errors.status}
+          required
+        />
+
+        <Select
+          label="Company"
+          value={formData.fintechCompanyId.toString()}
+          onChange={(value) => handleChange('fintechCompanyId', parseInt(value))}
+          options={companyOptions}
+          error={errors.fintechCompanyId}
+          required
+        />
+      </div>
+
+      {errors.submit && (
+        <div className="text-red-600 text-sm p-3 bg-red-50 rounded-lg">{errors.submit}</div>
+      )}
 
       <div className="flex gap-4 pt-6 border-t border-gray-200">
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="card-action-btn primary flex-1"
+          variant="primary"
+          className="flex items-center gap-2 flex-1"
         >
           {loading ? (
             <>
@@ -246,18 +251,19 @@ export function ProductForm({ product, mode }: ProductFormProps) {
               {mode === 'create' ? 'Create Product' : 'Update Product'}
             </>
           )}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => router.back()}
           disabled={loading}
-          className="card-action-btn secondary"
+          variant="secondary"
+          className="flex items-center gap-2 flex-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   )

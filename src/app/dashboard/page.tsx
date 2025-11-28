@@ -69,7 +69,7 @@ export default async function Dashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Total Companies */}
-          <div className="card-professional dashboard-stats-card compact-card">
+          <Link href="/companies" className="card-professional dashboard-stats-card compact-card transition-transform hover:scale-[1.02]">
             <div className="card-content-professional">
               <div className="stats-header">
                 <div className="stats-content">
@@ -90,10 +90,10 @@ export default async function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Total Products */}
-          <div className="card-professional dashboard-stats-card compact-card">
+          <Link href="/products" className="card-professional dashboard-stats-card compact-card transition-transform hover:scale-[1.02]">
             <div className="card-content-professional">
               <div className="stats-header">
                 <div className="stats-content">
@@ -114,10 +114,10 @@ export default async function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Total Users */}
-          <div className="card-professional dashboard-stats-card compact-card">
+          <Link href="/users" className="card-professional dashboard-stats-card compact-card transition-transform hover:scale-[1.02]">
             <div className="card-content-professional">
               <div className="stats-header">
                 <div className="stats-content">
@@ -136,7 +136,7 @@ export default async function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Quick Actions */}

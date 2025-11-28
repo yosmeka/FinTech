@@ -125,9 +125,9 @@ export default function LoginPage() {
             />
           </div>
           <h3 className="text-2xl font-bold text-black mb-2">Welcome Back</h3>
-          <p className="text-center text-sm font-medium text-gray-600">
+          {/* <p className="text-center text-sm font-medium text-gray-600">
             Sign in to your admin account
-          </p>
+          </p> */}
         </div>
 
         {/* Login Form */}
@@ -237,9 +237,9 @@ export default function LoginPage() {
           <p className="text-xs text-gray-500">
             &copy; {new Date().getFullYear()} Fintech Management System
           </p>
-          <p className="text-xs text-gray-400 mt-1">
+          {/* <p className="text-xs text-gray-400 mt-1">
             Secure • Professional • Reliable
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

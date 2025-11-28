@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { withBase } from '@/lib/path'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
+import { Button } from '@/components/ui/Button'
 import { FintechStatus, FINTECH_STATUS_LABELS, type FintechCompany } from '@/lib/types'
 
 interface CompanyFormProps {
@@ -109,44 +110,46 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-          <Input
-            label="Company Name"
-            value={formData.name}
-            onChange={(e) => handleChange('name', e.target.value)}
-            error={errors.name}
-            placeholder="Enter company name"
-            required
-          />
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Input
+          label="Company Name"
+          value={formData.name}
+          onChange={(e) => handleChange('name', e.target.value)}
+          error={errors.name}
+          placeholder="Enter company name"
+          required
+        />
 
-          <Input
-            label="Address"
-            value={formData.address}
-            onChange={(e) => handleChange('address', e.target.value)}
-            error={errors.address}
-            placeholder="Enter company address"
-            required
-          />
+        <Input
+          label="Address"
+          value={formData.address}
+          onChange={(e) => handleChange('address', e.target.value)}
+          error={errors.address}
+          placeholder="Enter company address"
+          required
+        />
 
-          <Input
-            label="Contact Person Phone Number"
-            value={formData.contactPersonPhoneNumber}
-            onChange={(e) => handleChange('contactPersonPhoneNumber', e.target.value)}
-            error={errors.contactPersonPhoneNumber}
-            placeholder="Enter contact phone number"
-            type="tel"
-            required
-          />
+        <Input
+          label="Contact Person Phone Number"
+          value={formData.contactPersonPhoneNumber}
+          onChange={(e) => handleChange('contactPersonPhoneNumber', e.target.value)}
+          error={errors.contactPersonPhoneNumber}
+          placeholder="Enter contact phone number"
+          type="tel"
+          required
+        />
 
-          <Input
-            label="Contact Address"
-            value={formData.contactAddress}
-            onChange={(e) => handleChange('contactAddress', e.target.value)}
-            error={errors.contactAddress}
-            placeholder="Enter contact address"
-            required
-          />
+        <Input
+          label="Contact Address"
+          value={formData.contactAddress}
+          onChange={(e) => handleChange('contactAddress', e.target.value)}
+          error={errors.contactAddress}
+          placeholder="Enter contact address"
+          required
+        />
 
+        <div className="md:col-span-2">
           <Select
             label="Status"
             value={formData.status}
@@ -155,16 +158,19 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
             error={errors.status}
             required
           />
+        </div>
+      </div>
 
-          {errors.submit && (
-            <div className="text-red-600 text-sm">{errors.submit}</div>
-          )}
+      {errors.submit && (
+        <div className="text-red-600 text-sm p-3 bg-red-50 rounded-lg">{errors.submit}</div>
+      )}
 
       <div className="flex gap-4 pt-6 border-t border-gray-200">
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="card-action-btn primary flex-1"
+          variant="primary"
+          className="flex items-center gap-2 flex-1"
         >
           {loading ? (
             <>
@@ -181,18 +187,19 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
               {mode === 'create' ? 'Create Company' : 'Update Company'}
             </>
           )}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => router.back()}
           disabled={loading}
-          className="card-action-btn secondary"
+          variant="secondary"
+          className="flex items-center gap-2 flex-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   )

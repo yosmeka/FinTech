@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { ProductForm } from '@/components/forms/ProductForm'
+import { EditPageHeader } from '@/components/EditPageHeader'
 
 async function getProduct(id: string) {
   const product = await prisma.product.findUnique({
@@ -27,14 +28,17 @@ export default async function EditProductPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
-        <p className="mt-2 text-gray-600">
-          Update {product.productName} information
-        </p>
-      </div>
+      <EditPageHeader 
+        title="Edit Product" 
+        subtitle={`Update information for ${product.productName}`} 
+      />
 
-      <ProductForm product={product} mode="edit" />
+      {/* Form Card */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="px-6 py-8 sm:p-8">
+          <ProductForm product={product} mode="edit" />
+        </div>
+      </div>
     </div>
   )
 }

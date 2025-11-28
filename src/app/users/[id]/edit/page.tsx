@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { UserForm } from '@/components/forms/UserForm'
+import { EditPageHeader } from '@/components/EditPageHeader'
 
 async function getUser(id: number) {
   return await prisma.user.findUnique({
@@ -45,5 +46,19 @@ export default async function EditUserPage({
     creator: user.creator || undefined,
   }
 
-  return <UserForm user={userForForm} mode="edit" />
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <EditPageHeader 
+        title="Edit User" 
+        subtitle={`Update information for ${user.name}`} 
+      />
+
+      {/* Form Card */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="px-6 py-8 sm:p-8">
+          <UserForm user={userForForm} mode="edit" />
+        </div>
+      </div>
+    </div>
+  )
 }

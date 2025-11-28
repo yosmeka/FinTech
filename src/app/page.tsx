@@ -126,9 +126,9 @@ export default function HomePage() {
             />
           </div>
           <h3 className="text-2xl font-bold text-black mb-2">Welcome Back</h3>
-          <p className="text-center text-sm font-medium text-gray-600">
+          {/* <p className="text-center text-sm font-medium text-gray-600">
             Sign in to your admin account
-          </p>
+          </p> */}
         </div>
 
         {/* Login Form */}
@@ -201,11 +201,11 @@ export default function HomePage() {
         </form>
 
         {/* Footer */}
-        <div className="mt-8 text-center">
+        {/* <div className="mt-8 text-center">
           <p className="text-xs text-gray-500">
             Secure admin access • Zemen Bank Fintech Platform
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   )

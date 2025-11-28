@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
+import { Button } from '@/components/ui/Button'
 
 interface User {
   id: number
@@ -138,84 +139,89 @@ export function UserForm({ user, mode }: UserFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-            <Input
-              label="Full Name"
-              value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
-              error={errors.name}
-              placeholder="Enter full name"
-              required
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2">
+          <Input
+            label="Full Name"
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            error={errors.name}
+            placeholder="Enter full name"
+            required
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <Input
+            label="Username"
+            type="text"
+            value={formData.username}
+            onChange={(e) => handleChange('username', e.target.value)}
+            error={errors.username}
+            placeholder="admin"
+            required
+          />
+        </div>
+
+        <Input
+          label={mode === 'create' ? 'Password' : 'New Password (leave blank to keep current)'}
+          type="password"
+          value={formData.password}
+          onChange={(e) => handleChange('password', e.target.value)}
+          error={errors.password}
+          placeholder={mode === 'create' ? 'Enter password' : 'Enter new password'}
+          required={mode === 'create'}
+        />
+
+        {formData.password && (
+          <Input
+            label="Confirm Password"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={(e) => handleChange('confirmPassword', e.target.value)}
+            error={errors.confirmPassword}
+            placeholder="Confirm password"
+            required
+          />
+        )}
+
+        <Select
+          label="Role"
+          value={formData.role}
+          onChange={(value) => handleChange('role', value)}
+          options={[
+            { value: 'ADMIN', label: 'Admin' },
+          ]}
+          required
+        />
+
+        {mode === 'edit' && (
+          <div className="flex items-center space-x-2 pt-6">
+            <input
+              type="checkbox"
+              id="isActive"
+              checked={formData.isActive}
+              onChange={(e) => handleChange('isActive', e.target.checked)}
+              className="rounded border-gray-300 text-red-600 focus:ring-red-500 h-5 w-5"
             />
+            <label htmlFor="isActive" className="text-sm font-medium text-gray-700">
+              Active User
+            </label>
+          </div>
+        )}
+      </div>
 
-            <Input
-              label="Username"
-              type="text"
-              value={formData.username}
-              onChange={(e) => handleChange('username', e.target.value)}
-              error={errors.username}
-              placeholder="admin"
-              required
-            />
-
-            <Input
-              label={mode === 'create' ? 'Password' : 'New Password (leave blank to keep current)'}
-              type="password"
-              value={formData.password}
-              onChange={(e) => handleChange('password', e.target.value)}
-              error={errors.password}
-              placeholder={mode === 'create' ? 'Enter password' : 'Enter new password'}
-              required={mode === 'create'}
-            />
-
-            {formData.password && (
-              <Input
-                label="Confirm Password"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => handleChange('confirmPassword', e.target.value)}
-                error={errors.confirmPassword}
-                placeholder="Confirm password"
-                required
-              />
-            )}
-
-            <Select
-              label="Role"
-              value={formData.role}
-              onChange={(value) => handleChange('role', value)}
-              options={[
-                { value: 'ADMIN', label: 'Admin' },
-              ]}
-              required
-            />
-
-            {mode === 'edit' && (
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="isActive"
-                  checked={formData.isActive}
-                  onChange={(e) => handleChange('isActive', e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <label htmlFor="isActive" className="text-sm font-medium text-gray-700">
-                  Active User
-                </label>
-              </div>
-            )}
-
-            {errors.submit && (
-              <div className="text-red-600 text-sm">
-                {errors.submit}
-              </div>
-            )}
+      {errors.submit && (
+        <div className="text-red-600 text-sm p-3 bg-red-50 rounded-lg">{errors.submit}</div>
+      )}
 
       <div className="flex gap-4 pt-6 border-t border-gray-200">
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="card-action-btn primary flex-1"
+          variant="primary"
+          className="flex items-center gap-2 flex-1"
         >
           {loading ? (
             <>
@@ -232,18 +238,19 @@ export function UserForm({ user, mode }: UserFormProps) {
               {mode === 'create' ? 'Create User' : 'Update User'}
             </>
           )}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => router.push('/users')}
           disabled={loading}
-          className="card-action-btn secondary flex-1"
+          variant="secondary"
+          className="flex items-center gap-2 flex-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   )
