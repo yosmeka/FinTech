@@ -38,6 +38,7 @@ export interface ProductWithCompanyClient extends ProductClient {
 
 export interface CreateFintechCompanyData {
   name: string
+  email: string
   address: string
   contactPersonPhoneNumber: string
   contactAddress: string
@@ -67,6 +68,7 @@ export interface CreateProductData {
   productDescription: string
   strength: string
   weakness: string
+  remark?: string
   status: ProductStatus
   fintechCompanyId: number
   createdById?: number
@@ -85,7 +87,9 @@ export const FINTECH_STATUS_LABELS: Record<FintechStatus, string> = {
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
   NEW: 'New',
   INPROGRESS: 'In Progress',
-  DONE: 'Done'
+  DONE: 'Done',
+  PENDING: 'Pending',
+  REJECTED: 'Rejected'
 }
 
 export const FINTECH_STATUS_COLORS: Record<FintechStatus, string> = {
@@ -97,5 +101,7 @@ export const FINTECH_STATUS_COLORS: Record<FintechStatus, string> = {
 export const PRODUCT_STATUS_COLORS: Record<ProductStatus, string> = {
   NEW: 'bg-blue-100 text-blue-800',
   INPROGRESS: 'bg-yellow-100 text-yellow-800',
-  DONE: 'bg-green-100 text-green-800'
+  DONE: 'bg-green-100 text-green-800',
+  PENDING: 'bg-purple-100 text-purple-800',
+  REJECTED: 'bg-red-100 text-red-800'
 }

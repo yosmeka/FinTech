@@ -42,7 +42,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
           <TableRow>
             <TableHead>Company Name</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className="hidden md:table-cell">Address</TableHead>
+            <TableHead className="hidden md:table-cell">Contact Info</TableHead>
             <TableHead className="hidden lg:table-cell">Contact Phone</TableHead>
             <TableHead>Products</TableHead>
             <TableHead className="hidden sm:table-cell">Created</TableHead>
@@ -79,10 +79,13 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
               </TableCell>
               <TableCell className="hidden md:table-cell">
                 <div className="max-w-xs">
-                  <p className="text-sm text-gray-900 truncate" title={company.address}>
+                  <p className="text-sm text-gray-900 truncate" title={company.email}>
+                    {company.email}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1 truncate" title={company.address}>
                     {company.address}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1 truncate" title={company.contactAddress}>
                     {company.contactAddress}
                   </p>
                 </div>

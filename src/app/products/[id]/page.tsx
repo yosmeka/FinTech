@@ -83,6 +83,16 @@ export default async function ProductDetailPage({
                 </div>
               </div>
               
+              {/* Remark field */}
+              {product.remark && (
+                <div>
+                  <label className="text-sm font-medium text-gray-600">Remarks</label>
+                  <div className="mt-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <p className="text-gray-900 leading-relaxed">{product.remark}</p>
+                  </div>
+                </div>
+              )}
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="text-sm font-medium text-gray-600">Created</label>

@@ -29,9 +29,10 @@ async function main() {
   const company = await prisma.fintechCompany.create({
     data: {
       name: 'Acme Fintech',
+      email: 'contact@acmefintech.com',
       address: '123 Finance Ave, Metropolis',
       contactPersonPhoneNumber: '+1-555-0100',
-      contactAddress: 'contact@acmefintech.com',
+      contactAddress: '456 Contact St, Metropolis',
       status: 'NEW',
       createdById: admin.id,
       updatedById: admin.id,
@@ -46,6 +47,7 @@ async function main() {
       productDescription: 'Simple payments product',
       strength: 'Reliable and fast',
       weakness: 'Limited international support',
+      remark: 'Initial product launch version',
       status: 'INPROGRESS',
       fintechCompanyId: company.id,
       createdById: admin.id,

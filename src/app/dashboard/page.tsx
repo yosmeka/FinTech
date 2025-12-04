@@ -53,6 +53,12 @@ async function getDashboardData() {
     newProducts: await prisma.product.count({
       where: { status: 'NEW' },
     }),
+    pendingProducts: await prisma.product.count({
+      where: { status: 'PENDING' },
+    }),
+    rejectedProducts: await prisma.product.count({
+      where: { status: 'REJECTED' },
+    }),
   }
 
   return { companies, products, users, stats }
@@ -111,6 +117,11 @@ export default async function Dashboard() {
                   <span className="text-green-600 font-medium">{stats.completedProducts} Done</span>
                   <span className="text-gray-500">•</span>
                   <span className="text-yellow-600 font-medium">{stats.inProgressProducts} In Progress</span>
+                </div>
+                <div className="stats-metrics mt-1">
+                  <span className="text-purple-600 font-medium">{stats.pendingProducts} Pending</span>
+                  <span className="text-gray-500">•</span>
+                  <span className="text-red-600 font-medium">{stats.rejectedProducts} Rejected</span>
                 </div>
               </div>
             </div>
@@ -306,7 +317,9 @@ export default async function Dashboard() {
                         </div>
                       </div>
                       <span className={`table-badge ${product.status === 'DONE' ? 'success' :
-                          product.status === 'INPROGRESS' ? 'warning' : 'info'
+                          product.status === 'INPROGRESS' ? 'warning' :
+                          product.status === 'PENDING' ? 'info' :
+                          product.status === 'REJECTED' ? 'error' : 'info'
                         }`}>
                         {PRODUCT_STATUS_LABELS[product.status]}
                       </span>

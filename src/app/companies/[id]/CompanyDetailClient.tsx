@@ -76,6 +76,8 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
     { value: 'NEW', label: 'New' },
     { value: 'INPROGRESS', label: 'In Progress' },
     { value: 'DONE', label: 'Done' },
+    { value: 'PENDING', label: 'Pending' },
+    { value: 'REJECTED', label: 'Rejected' },
   ]
 
   const sortOptions = [
@@ -150,6 +152,16 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
 
               <div className="card-content-professional">
                 <div className="card-info-grid">
+                  <div className="card-info-item">
+                    <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <div className="card-info-content">
+                      <div className="card-info-label">Email</div>
+                      <div className="card-info-value">{company.email}</div>
+                    </div>
+                  </div>
+
                   <div className="card-info-item">
                     <svg className="card-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -240,6 +252,22 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                     </div>
                     <div className="text-xs text-blue-700 font-semibold uppercase tracking-wider">
                       New
+                    </div>
+                  </div>
+                  <div className="text-center p-3 bg-purple-50 rounded-lg border border-purple-200">
+                    <div className="text-lg font-bold text-purple-800">
+                      {company.products.filter(p => p.status === 'PENDING').length}
+                    </div>
+                    <div className="text-xs text-purple-700 font-semibold uppercase tracking-wider">
+                      Pending
+                    </div>
+                  </div>
+                  <div className="text-center p-3 bg-red-50 rounded-lg border border-red-200">
+                    <div className="text-lg font-bold text-red-800">
+                      {company.products.filter(p => p.status === 'REJECTED').length}
+                    </div>
+                    <div className="text-xs text-red-700 font-semibold uppercase tracking-wider">
+                      Rejected
                     </div>
                   </div>
                 </div>
@@ -434,7 +462,9 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                           </div>
                           <span className={`card-status-badge ${
                             product.status === 'DONE' ? 'success' :
-                            product.status === 'INPROGRESS' ? 'warning' : 'info'
+                            product.status === 'INPROGRESS' ? 'warning' :
+                            product.status === 'PENDING' ? 'info' :
+                            product.status === 'REJECTED' ? 'error' : 'info'
                           }`}>
                             {PRODUCT_STATUS_LABELS[product.status]}
                           </span>
@@ -548,7 +578,9 @@ export function CompanyDetailClient({ company }: CompanyDetailClientProps) {
                           <TableCell>
                             <span className={`table-badge ${
                               product.status === 'DONE' ? 'success' :
-                              product.status === 'INPROGRESS' ? 'warning' : 'info'
+                              product.status === 'INPROGRESS' ? 'warning' :
+                              product.status === 'PENDING' ? 'info' :
+                              product.status === 'REJECTED' ? 'error' : 'info'
                             }`}>
                               {PRODUCT_STATUS_LABELS[product.status]}
                             </span>

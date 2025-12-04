@@ -29,6 +29,7 @@ export function ProductForm({ product, mode }: ProductFormProps) {
     productDescription: product?.productDescription || '',
     strength: product?.strength || '',
     weakness: product?.weakness || '',
+    remark: product?.remark || '',
     status: product?.status || 'NEW' as ProductStatus,
     fintechCompanyId: product?.fintechCompanyId || parseInt(searchParams.get('companyId') || '0') || 0,
   })
@@ -157,6 +158,17 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         </div>
 
         <div className="md:col-span-2">
+          <Select
+            label="Company"
+            value={formData.fintechCompanyId.toString()}
+            onChange={(value) => handleChange('fintechCompanyId', parseInt(value))}
+            options={companyOptions}
+            error={errors.fintechCompanyId}
+            required
+          />
+        </div>
+
+        <div className="md:col-span-2">
           <div className="space-y-1">
             <label className="text-sm font-medium text-gray-700">
               Product Description
@@ -215,14 +227,18 @@ export function ProductForm({ product, mode }: ProductFormProps) {
           required
         />
 
-        <Select
-          label="Company"
-          value={formData.fintechCompanyId.toString()}
-          onChange={(value) => handleChange('fintechCompanyId', parseInt(value))}
-          options={companyOptions}
-          error={errors.fintechCompanyId}
-          required
-        />
+        <div className="space-y-1">
+          <label className="text-sm font-medium text-gray-700">
+            Remark
+          </label>
+          <textarea
+            value={formData.remark}
+            onChange={(e) => handleChange('remark', e.target.value)}
+            className="flex min-h-[100px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+            placeholder="Enter any additional remarks about status"
+          />
+        </div>
+
       </div>
 
       {errors.submit && (

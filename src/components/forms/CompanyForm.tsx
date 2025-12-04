@@ -20,6 +20,7 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
 
   const [formData, setFormData] = useState({
     name: company?.name || '',
+    email: (company as any)?.email || '', // Temporarily cast to any to avoid TS error
     address: company?.address || '',
     contactPersonPhoneNumber: company?.contactPersonPhoneNumber || '',
     contactAddress: company?.contactAddress || '',
@@ -37,6 +38,16 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
     if (!formData.name.trim()) {
       newErrors.name = 'Company name is required'
     }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address'
+      }
+    }
+    
     if (!formData.address.trim()) {
       newErrors.address = 'Address is required'
     }
@@ -122,13 +133,32 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
         />
 
         <Input
-          label="Address"
-          value={formData.address}
-          onChange={(e) => handleChange('address', e.target.value)}
-          error={errors.address}
-          placeholder="Enter company address"
+          label="Email"
+          type="email"
+          value={formData.email}
+          onChange={(e) => handleChange('email', e.target.value)}
+          error={errors.email}
+          placeholder="Enter company email"
           required
         />
+
+        <div className="md:col-span-2">
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">
+              Address
+            </label>
+            <textarea
+              value={formData.address}
+              onChange={(e) => handleChange('address', e.target.value)}
+              className="flex min-h-[100px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+              placeholder="Enter company address"
+              required
+            />
+            {errors.address && (
+              <p className="text-sm text-red-600">{errors.address}</p>
+            )}
+          </div>
+        </div>
 
         <Input
           label="Contact Person Phone Number"
@@ -140,14 +170,23 @@ export function CompanyForm({ company, mode }: CompanyFormProps) {
           required
         />
 
-        <Input
-          label="Contact Address"
-          value={formData.contactAddress}
-          onChange={(e) => handleChange('contactAddress', e.target.value)}
-          error={errors.contactAddress}
-          placeholder="Enter contact address"
-          required
-        />
+        <div className="md:col-span-2">
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-gray-700">
+              Contact Address
+            </label>
+            <textarea
+              value={formData.contactAddress}
+              onChange={(e) => handleChange('contactAddress', e.target.value)}
+              className="flex min-h-[100px] w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+              placeholder="Enter contact address"
+              required
+            />
+            {errors.contactAddress && (
+              <p className="text-sm text-red-600">{errors.contactAddress}</p>
+            )}
+          </div>
+        </div>
 
         <div className="md:col-span-2">
           <Select

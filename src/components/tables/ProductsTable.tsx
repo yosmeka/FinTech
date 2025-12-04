@@ -78,7 +78,9 @@ export function ProductsTable({ products }: ProductsTableProps) {
               <TableCell>
                 <span className={`table-badge ${
                   product.status === 'DONE' ? 'success' :
-                  product.status === 'INPROGRESS' ? 'warning' : 'info'
+                  product.status === 'INPROGRESS' ? 'warning' :
+                  product.status === 'PENDING' ? 'info' :
+                  product.status === 'REJECTED' ? 'error' : 'info'
                 }`}>
                   {PRODUCT_STATUS_LABELS[product.status]}
                 </span>

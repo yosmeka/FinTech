@@ -59,7 +59,9 @@ export function ProductsCards({ products }: ProductsCardsProps) {
               </div>
               <span className={`card-status-badge ${
                 product.status === 'DONE' ? 'success' :
-                product.status === 'INPROGRESS' ? 'warning' : 'info'
+                product.status === 'INPROGRESS' ? 'warning' :
+                product.status === 'PENDING' ? 'info' :
+                product.status === 'REJECTED' ? 'error' : 'info'
               }`}>
                 {PRODUCT_STATUS_LABELS[product.status]}
               </span>
