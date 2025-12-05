@@ -73,12 +73,7 @@
   --color-gray-900: var(--gray-900);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #111827;
-    --foreground: #ffffff;
-  }
-}
+/* System theme detection removed - enforcing light theme globally */
 
 body {
   background: var(--background);

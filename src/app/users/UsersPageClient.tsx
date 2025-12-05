@@ -10,6 +10,7 @@ import { SearchBar } from '@/components/ui/SearchBar'
 import { FilterSort } from '@/components/ui/FilterSort'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table'
 import { UserClient } from '@/lib/types'
+import { formatDate } from '@/lib/utils'
 
 interface UsersPageProps {
   users: UserClient[]
@@ -120,7 +121,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
             </svg>
             <div className="card-info-content">
               <div className="card-info-label">Created</div>
-              <div className="card-info-value">{new Date(user.createdAt).toLocaleDateString()}</div>
+              <div className="card-info-value">{formatDate(user.createdAt)}</div>
             </div>
           </div>
 
@@ -142,7 +143,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
             </svg>
             <div className="card-info-content">
               <div className="card-info-label">Last updated</div>
-              <div className="card-info-value">{new Date(user.updatedAt).toLocaleDateString()}</div>
+              <div className="card-info-value">{formatDate(user.updatedAt)}</div>
             </div>
           </div>
         </div>
@@ -150,14 +151,14 @@ export function UsersPageClient({ users }: UsersPageProps) {
 
       {/* Card Actions */}
       <div className="card-actions">
-        <Link href={`/users/${user.id}`} className="card-action-btn primary">
+        <Link href={`/users/${user.id}`} className="inline-flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
           View Details
         </Link>
-        <Link href={`/users/${user.id}/edit`} className="card-action-btn secondary">
+        <Link href={`/users/${user.id}/edit`} className="inline-flex items-center gap-2">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
@@ -191,10 +192,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
                     </span>
                   </div>
                   <div>
-                    <Link
-                      href={`/users/${user.id}`}
-                      className="font-semibold text-black hover:text-red-600 transition-colors"
-                    >
+                    <Link href={`/users/${user.id}`} className="font-semibold text-black hover:text-red-600 transition-colors">
                       {user.name}
                     </Link>
                     <p className="text-sm text-gray-500 mt-1">
@@ -215,7 +213,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
               </TableCell>
               <TableCell className="hidden sm:table-cell">
                 <div className="text-sm">
-                  <p className="text-gray-900">{new Date(user.createdAt).toLocaleDateString()}</p>
+                  <p className="text-gray-900">{formatDate(user.createdAt)}</p>
                   <p className="text-gray-500 text-xs mt-1">Created</p>
                 </div>
               </TableCell>
@@ -227,14 +225,14 @@ export function UsersPageClient({ users }: UsersPageProps) {
               </TableCell>
               <TableCell>
                 <div className="table-actions">
-                  <Link href={`/users/${user.id}`} className="table-action-btn primary">
+                  <Link href={`/users/${user.id}`} className="inline-flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                     View
                   </Link>
-                  <Link href={`/users/${user.id}/edit`} className="table-action-btn secondary">
+                  <Link href={`/users/${user.id}/edit`} className="inline-flex items-center gap-1">
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
@@ -338,7 +336,7 @@ export function UsersPageClient({ users }: UsersPageProps) {
               }
             </p>
             {!searchQuery && !statusFilter && (
-              <Link href="/users/new" className="card-action-btn primary inline-flex">
+              <Link href="/users/new" className="card-action-btn primary inline-flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
