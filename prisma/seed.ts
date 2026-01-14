@@ -23,7 +23,28 @@ async function main() {
       isActive: true,
     },
   })
+  const user=await prisma.user.create({
+    data:{
+      username:'samuel.degu',
+      name:'samuel girma',
+      password:passwordHash,
+      role:'ADMIN',
+      isActive:true,
+    }
+  })
+    const yosef=await prisma.user.create({
+    data:{
+      username:'yosef.melkamu',
+      name:'Yosef Melkamu',
+      password:passwordHash,
+      role:'ADMIN',
+      isActive:true,
+    }
+  })
   console.log(`✅ Created admin user: ${admin.username}`)
+  console.log(`✅ Created user: ${user.username}`)
+  console.log(`✅ Created yosef user: ${yosef.username}`)
+
 
   // Create a single company
   const company = await prisma.fintechCompany.create({

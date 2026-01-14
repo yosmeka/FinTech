@@ -2,8 +2,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { prisma } from './prisma'
-import { authenticateLDAP, syncLDAPUserToDatabase } from './ldap'
-
+// import {authentication } from './ldap'
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production'
 const COOKIE_NAME = 'fintech-auth-token'
 
@@ -194,24 +193,8 @@ export async function clearAuthCookie() {
   cookieStore.delete(COOKIE_NAME)
 }
 
-// Authenticate user - supports both local and LDAP authentication
-export async function authenticateUser(username: string, password: string): Promise<AuthUser | null> {
-  try {
-    const authMode = (process.env.AUTH_MODE || 'local').toLowerCase()
-    
-    if (authMode === 'ldap') {
-      return await authenticateUserLDAP(username, password)
-    } else {
-      return await authenticateUserLocal(username, password)
-    }
-  } catch (e) {
-    console.error('Error in authenticateUser:', e)
-    return null
-  }
-}
-
 // Local authentication with password hash
-async function authenticateUserLocal(username: string, password: string): Promise<AuthUser | null> {
+export async function authenticateUserLocal(username: string): Promise<AuthUser | null> {
   try {
     const user = await prisma.user.findUnique({
       where: { username: username.toLowerCase() },
@@ -222,13 +205,6 @@ async function authenticateUserLocal(username: string, password: string): Promis
       console.log('Local auth - User not found or inactive')
       return null
     }
-
-    const isValidPassword = await verifyPassword(password, user.password)
-    console.log('Local auth - Password valid:', isValidPassword)
-    if (!isValidPassword) {
-      return null
-    }
-
     return {
       id: user.id,
       username: user.username,
@@ -238,42 +214,6 @@ async function authenticateUserLocal(username: string, password: string): Promis
     }
   } catch (e) {
     console.error('Error in local authentication:', e)
-    return null
-  }
-}
-
-// LDAP authentication
-async function authenticateUserLDAP(username: string, password: string): Promise<AuthUser | null> {
-  try {
-    console.log('LDAP auth - Attempting authentication for:', username)
-    
-    // Authenticate against LDAP
-    const ldapResult = await authenticateLDAP(username, password)
-    
-    if (!ldapResult.success || !ldapResult.user) {
-      console.log('LDAP auth - Authentication failed:', ldapResult.message)
-      return null
-    }
-
-    console.log('LDAP auth - Authentication successful for:', ldapResult.user.username)
-
-    // Sync user to database
-    const user = await syncLDAPUserToDatabase(ldapResult.user, prisma)
-
-    if (!user || !user.isActive) {
-      console.log('LDAP auth - User not active in database')
-      return null
-    }
-
-    return {
-      id: user.id,
-      username: user.username,
-      name: user.name,
-      role: user.role as 'ADMIN',
-      isActive: user.isActive,
-    }
-  } catch (e) {
-    console.error('Error in LDAP authentication:', e)
     return null
   }
 }

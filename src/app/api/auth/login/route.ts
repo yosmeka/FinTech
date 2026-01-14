@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { authenticateUser, generateToken } from '@/lib/auth'
+import { authenticateUserLocal, generateToken } from '@/lib/auth'
+import { authentication } from '@/lib/ldap'
+
+function getEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Environment variable ${key} is not set.`);
+  }
+  return value;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,16 +21,29 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+      let ldapUsername: string
+      if (username.includes('@')) {
+        const usernamePart = username.split('@')[0]
+        ldapUsername = `Zemenbank\\${usernamePart}`
+      } else {
+        ldapUsername = `Zemenbank\\${username}`
+      }
 
-    const user = await authenticateUser(username, password)
-    
-    if (!user) {
+    const authenticated = await authentication(ldapUsername, password)
+    if(!authenticated)
+    {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
       )
     }
-
+    const user= await authenticateUserLocal(username)
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User Not Registered in this system' },
+        { status: 401 }
+      )
+    }
     const token = generateToken({
       userId: user.id,
       username: user.username,
@@ -58,3 +80,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
